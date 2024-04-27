@@ -1,0 +1,100 @@
+<div class="container">
+    <form class="mt-4 mb-4 p-3 border shadow rounded">
+  <div class="row mb-3">
+    <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="title">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label for="inputPassword3" class="col-sm-2 col-form-label">Discription</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="discription">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label for="inputEmail3" class="col-sm-2 col-form-label">Estimate</label>
+    <div class="col-sm-10">
+      <input type="date" class="form-control" name="estimate">
+    </div>
+  </div>
+  <div class="row mb-3">
+    <label for="inputEmail3" class="col-sm-2 col-form-label">Advance</label>
+    <div class="col-sm-10">
+      <input type="number" class="form-control" name="advance">
+    </div>
+  </div>
+  <fieldset class="row mb-3">
+    <legend class="col-form-label col-sm-2 pt-0">Progress</legend>
+    <div class="col-sm-10">
+      <div class="form-check">
+        <div class="">
+                <div class="col-lg-12">
+
+                    <div id="row">
+                        <div class="input-group m-3">
+                            <input  type="text" placeholder="label" oninput="rangeInput.name = lab.value" id="lab" value="Labour">
+                            <input style="margin-left: 1rem;" id="rangeInput" type="range" min="0" max="100" name="val" oninput="amount.value=rangeInput.value" />
+                            <input style="margin-left: 1rem;" id="amount" type="number" value="50" min="0" max="100" oninput="rangeInput.value=amount.value" />
+                        </div>
+                    </div>
+
+                    <div id="newinput"></div>
+                    <button id="rowAdder" type="button" class="btn btn-dark">
+                        <span class="bi bi-plus-square-dotted">
+                        </span> ADD
+                    </button>
+            </div>
+            <div>
+
+</div>
+
+      
+</div>
+        
+    </div>
+  </fieldset>
+ 
+  <button type="submit" class="btn btn-primary">Sign in</button>
+</form>
+
+
+<style>
+
+input[type="text"],input[type="number"],input[type="date"],
+select.form-control {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #000000;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+input[type="text"]:focus,input[type="number"]:focus,input[type="date"]:focus,
+select.form-control:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+</style>
+
+
+<script type="text/javascript">
+    var i =0
+        $("#rowAdder").click(function () {
+            i++;
+            newRowAdd =
+                '<div id="row"> <div class="input-group m-3">' +
+                '<input type="text" placeholder="label" oninput="rangeInput'+i+'.name = lab'+i+'.value" id="lab'+i+'">'+
+                '<input id="rangeInput'+i+'" type="range" min="0" max="100" oninput="amount'+i+'.value=rangeInput'+i+'.value" style="margin-left: 1rem; margin-top: 1rem" />'+
+                '<input id="amount'+i+'" type="number" value="50" min="0" max="100" oninput="rangeInput'+i+'.value=amount'+i+'.value" style="margin-left: 1rem; margin-top: 1rem; margin-right: 1rem; " />'+
+                '<div class="input-group-prepend">' +
+                '<button style="margin-top: 1rem" class="btn btn-danger" id="DeleteRow" type="button">' +
+                '<i class="bi bi-trash"></i> Delete</button> </div> </div> </div>';
+ 
+            $('#newinput').append(newRowAdd);
+        });
+        $("body").on("click", "#DeleteRow", function () {
+            $(this).parents("#row").remove();
+        })
+</script>

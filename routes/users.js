@@ -3,7 +3,11 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.render('user',{title: 'pranav', user:true})
 });
+
+router.get('/progress', (req, res, next) => {
+  res.render('work-progress',{user:true})
+})
 
 module.exports = router;

@@ -1,0 +1,201 @@
+<!-- multiple progrssbar -->
+<div class="container">
+<div class="card shadow mt-4 ">
+    <div class="card-body p-5">
+        <h4>Multiple progress bars</h4>
+        <p class="font-italic text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+        <!-- Multiple progress bar-->
+        <div style="height: 4px" class="progress rounded-pill">
+            <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%"
+                class="progress-bar"></div>
+            <div role="progressbar" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100" style="width: 22%"
+                class="progress-bar bg-warning"></div>
+            <div role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width: 15%"
+                class="progress-bar bg-danger"></div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- progesses -->
+<div class="page-content page-container " id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center ">
+
+            <div class="col-xl-12 ">
+                <div class="card proj-progress-card shadow">
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <h6>Completed Work</h6>
+                                <h5 class="m-b-30 f-w-700">532<span class="text-c-green m-l-10">+1.69%</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-c-red" style="width:25%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <h6>Incomplete Work</h6>
+                                <h5 class="m-b-30 f-w-700">4,569<span class="text-c-red m-l-10">-0.5%</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-c-blue" style="width:65%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <h6>Ongoing Work</h6>
+                                <h5 class="m-b-30 f-w-700">89%<span class="text-c-green m-l-10">+0.99%</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-c-green" style="width:85%"></div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <h6>Ongoing Digs</h6>
+                                <h5 class="m-b-30 f-w-700">365<span class="text-c-green m-l-10">+0.35%</span></h5>
+                                <div class="progress">
+                                    <div class="progress-bar bg-c-yellow" style="width:45%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .stretch-card>.card {
+        width: 100%;
+        min-width: 100%
+    }
+
+
+
+    .flex {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto
+    }
+
+    @media (max-width:991.98px) {
+        .padding {
+            padding: 1.5rem
+        }
+    }
+
+    @media (max-width:767.98px) {
+        .padding {
+            padding: 1rem
+        }
+    }
+
+    .padding {
+        padding: 3rem
+    }
+
+    .card {
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        -ms-box-shadow: none
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #3da5f;
+        border-radius: 0
+    }
+
+    .card .card-block {
+        padding: 1.25rem;
+    }
+
+    h6 {
+        font-size: 16px !important;
+    }
+
+    .text-c-green {
+        color: #2ed8b6;
+    }
+
+    .m-l-10 {
+        margin-left: 10px;
+    }
+
+    .proj-progress-card .progress {
+        height: 6px;
+        overflow: visible;
+        margin-bottom: 10px;
+    }
+
+    .proj-progress-card .progress .progress-bar {
+        position: relative;
+    }
+
+    .progress .progress-bar {
+        height: 100%;
+        color: inherit;
+    }
+
+    .bg-c-red {
+        background: #FF5370;
+    }
+
+    .proj-progress-card .progress .progress-bar.bg-c-red:after {
+        border: 3px solid #FF5370;
+    }
+
+    .proj-progress-card .progress .progress-bar:after {
+        content: "";
+        background: #fff;
+        position: absolute;
+        right: -6px;
+        top: -4px;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+    }
+
+    .bg-c-blue {
+        background: #4099ff;
+    }
+
+    .proj-progress-card .progress .progress-bar.bg-c-blue:after {
+        border: 3px solid #4099ff;
+    }
+
+    .proj-progress-card .progress .progress-bar.bg-c-green:after {
+        border: 3px solid #2ed8b6;
+    }
+
+    .bg-c-green {
+        background: #2ed8b6;
+    }
+
+    .bg-c-yellow {
+        background: #FFB64D;
+    }
+
+    .proj-progress-card .progress .progress-bar.bg-c-yellow:after {
+        border: 3px solid #FFB64D;
+    }
+
+    .m-b-30 {
+        margin-bottom: 30px;
+    }
+
+    .text-c-red {
+        color: #FF5370;
+    }
+</style>

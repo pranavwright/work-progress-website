@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var {engine} = require('express-handlebars')
+var db = require('./env/connection');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,6 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+db.connect((err)=>{
+  if(err) console.log('err is: '+ err);
+  else console.log('databse connected');
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

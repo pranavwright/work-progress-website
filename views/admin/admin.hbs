@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css" />
+<div class="container ">
+
+      <a href="/admin/add-user" class="btn btn-success mt-3 mb-4">Add User</a>
+
+
+
+<table class="table mt-3 display" id="myTable" >
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Contact</th>
+      <th scope="col">Completed</th>
+      <th scope="col">Pending</th>
+      <th scope="col">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark </td>
+      <td>95748922 </td>
+      <td>10</td>
+      <td>2</td>
+      <td><a href="/edit" class="btn btn-primary">Edit</a></td>
+    <tr>
+      <th scope="row">1</th>
+      <td>sark </td>
+      <td>95748922 </td>
+      <td>10</td>
+      <td>2</td>
+      <td><a href="/edit" class="btn btn-primary">Edit</a></td>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark </td>
+      <td>95748922 </td>
+      <td>10</td>
+      <td>2</td>
+      <td><a href="/edit" class="btn btn-primary">Edit</a></td>
+    </tr>
+
+  </tbody>
+</table>
+
+</div>
+  
+<script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
+<script>
+  $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
