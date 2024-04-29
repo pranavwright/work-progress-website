@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var {engine} = require('express-handlebars')
+var session = require('express-session');
 var db = require('./env/connection');
 
 var indexRouter = require('./routes/index');
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({secret:'psSecret',resave: false, saveUninitialized: true, cookie:{maxAge: 5 * 60 * 1000}, secure: true }))
 
 db.connect((err)=>{
   if(err) console.log('err is: '+ err);

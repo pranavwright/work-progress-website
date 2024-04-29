@@ -1,4 +1,5 @@
 var express = require('express');
+const { createAccount } = require('../Helpers/userHelpers');
 var router = express.Router();
 
 const admin = {
@@ -20,6 +21,11 @@ router.get("/new-work", (req, res)=>{
 })
 router.get('/add-user',(req, res)=>{
   res.render('admin/new-user', admin)
+})
+router.post('/add-user',(req, res)=>{
+  createAccount(req.body).then((response)=>{
+    res.redirect('/admin/new-work')
+  })
 })
 router.get("/pending", (req, res)=>{
   res.render('admin/pendings',admin)

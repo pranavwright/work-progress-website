@@ -1,11 +1,10 @@
 const {MongoClient} = require( 'mongodb')
-var name = require('./name')
-
+require('dotenv').config();
 
 const state = {}
 
-const url = name.mongo.url
-const dbName = name.mongo.dbName
+const url = process.env.URL
+const dbName = process.env.DATABASE_NAME
 const client = new MongoClient(url)
 module.exports.connect = async function (done) {
     // Use connect method to connect to the server

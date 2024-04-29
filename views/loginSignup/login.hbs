@@ -1,45 +1,54 @@
-
 <div class="container">
-    <section class="intro mt-4">
-  <div class="mask d-flex align-items-center h-100 " >
-    <div class="container ">
-      <div class="row justify-content-center ">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card shadow" style="border-radius: 1rem;">
-            <div class="card-body p-5 text-center">
+  <section class="intro mt-4">
+    <div class="mask d-flex align-items-center h-100 ">
+      <div class="container ">
+        <div class="row justify-content-center ">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow" style="border-radius: 1rem;">
+              <div class="card-body p-5 text-center">
 
-              <div class="my-md-5 pb-3">
+                <div class="my-md-5 pb-3">
 
-                <h1 class="fw-bold mb-1">Add User</h1>
+                  <h1 class="fw-bold mb-1">Add User</h1>
+                  <form method="post" id="number">
 
-                <i class="fas fa-user-astronaut fa-3x my-5"></i>
 
-                <div class="form-outline mb-4">                  
-                    <label class="form-label" for="typeEmail">Name</label>
+                    <div class="form-outline mb-4">
+                      <label class="form-label" for="typeEmail">Mobile</label>
 
-                  <input type="text" name="name" class="form-control form-control-lg" placeholder="Name" required />
+                      <input type="number" name="mobile" class="form-control form-control-lg" placeholder="0000000000"
+                        required />
+                      <button type="submit" id="submit"> Sent OTP</button>
+                    </div>
+                  </form>
+
+
+                  <form method="post" id="otp" action="/login">
+
+
+                    <div class="form-outline mb-5">
+                      <label class="form-label" for="typePassword">Mobile</label>
+
+                      <input type="number" name="otp" class="form-control form-control-lg" placeholder="00000" required />
+                    </div>
+
+                    <button class="btn btn-primary btn-lg btn-rounded gradient-custom text-body px-5"
+                      type="submit" id="sent-otp">Login</button>
+
                 </div>
+                </form>
 
-                <div class="form-outline mb-5">                  
-                    <label class="form-label" for="typePassword" >Mobile</label>
-
-                  <input type="tel" name="mobile" class="form-control form-control-lg" placeholder="0000000000" required/>
-                </div>
-
-                <button class="btn btn-primary btn-lg btn-rounded gradient-custom text-body px-5" type="submit">Login</button>
 
               </div>
-
-              <div>
-                <p class="mb-0">Don't have an account? <a href="#!" class="text-body fw-bold">Sign Up</a></p>
-              </div>
-
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 </div>
+<script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
+<script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+<script defer src="/javascripts/fire.js"></script>
