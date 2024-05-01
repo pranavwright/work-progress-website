@@ -49,8 +49,9 @@ router.post("/login", (req, res)=>{
     // See the UserRecord reference doc for the contents of userRecord.
     console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
     
-    req.session.user = req.body.userNumber
-    req.session.loginIn = true
+    let user = {number:req.body.userNumber}
+    req.session.user = user
+    req.session.user.loginIn = true
     console.log(req.session.user);
     res.json({success:true})
 
@@ -59,6 +60,7 @@ router.post("/login", (req, res)=>{
     console.log('Error fetching user data:', error);
   });
 })
+
 
 router.get('/logout',(req,res)=>{
   req.session.user = null

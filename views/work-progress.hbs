@@ -1,72 +1,72 @@
 <!-- multiple progrssbar -->
 <div class="container">
-    <div class="card shadow mt-4 ">
+    <div class="card shadow mt-4 rounded">
         <div class="card-body p-5">
             <h4>Multiple progress bars</h4>
             <p class="font-italic text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 
             <!-- Multiple progress bar-->
             <div style="height: 4px" class="progress rounded-pill">
-                <div role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%"
-                    class="progress-bar"></div>
-                <div role="progressbar" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100" style="width: 22%"
-                    class="progress-bar bg-warning"></div>
-                <div role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" style="width: 15%"
-                    class="progress-bar bg-danger"></div>
+                {{#each progress}}
+                <div role="progressbar" aria-valuenow="{{progress}}" id="l{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: calc({{progress}}%/{{progress.length}})"
+                    class="progress-bar "></div>
+                
+                    {{/each}}
             </div>
         </div>
     </div>
 </div>
 
 <!-- progesses -->
-<div class="page-content page-container container" id="page-content">
+<div class="page-content page-container container" id="page-content" >
     <div class="padding">
         <div class="row container d-flex justify-content-center ">
 
             <div class="col-xl-12 ">
-                <div class="card proj-progress-card shadow">
+                <div class="card proj-progress-card shadow rounded">
                     <div class="card-block">
-                        <div class="row">
+                        <div class="row" style="justify-content: space-around;">
+                            {{#each progress}}
+                           
                             <div class="col-xl-3 col-md-6">
-                                <h6>Completed Work</h6>
-                                <h5 class="m-b-30 f-w-700">532<span class="text-c-green m-l-10">+1.69%</span></h5>
+                                <h6>{{label}}</h6>
+                                <h5 class="m-b-30 f-w-700">+{{progress}}<span class="text-c-green m-l-10">%</span></h5>
                                 <div class="progress">
-                                    <div class="progress-bar bg-c-red" style="width:25%"></div>
+                                    <div class="progress-bar " id="m{{progress}}" style="width:{{progress}}%"></div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <h6>Incomplete Work</h6>
-                                <h5 class="m-b-30 f-w-700">4,569<span class="text-c-red m-l-10">-0.5%</span></h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-c-blue" style="width:65%"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <h6>Ongoing Work</h6>
-                                <h5 class="m-b-30 f-w-700">89%<span class="text-c-green m-l-10">+0.99%</span></h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-c-green" style="width:85%"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <h6>Ongoing Digs</h6>
-                                <h5 class="m-b-30 f-w-700">365<span class="text-c-green m-l-10">+0.35%</span></h5>
-                                <div class="progress">
-                                    <div class="progress-bar bg-c-yellow" style="width:45%"></div>
-                                </div>
-                            </div>
+                             {{/each}}
+
                         </div>
                     </div>
                 </div>
             </div>
 
-
-
         </div>
     </div>
 </div>
+<script>
+
+    var color = ['bg-c-green','bg-c-yellow','bg-c-blue','bg-c-red']
+    {{#each progress}}
+    var l{{progress}} = document.getElementById('l{{progress}}')
+    var m{{progress}} = document.getElementById('m{{progress}}')
+    {{/each}}
+    window.addEventListener('load', (event) => {
+    progressColor()
+    })
+    function progressColor() {
+    {{#each progress}}
+    var color{{progress}} = Math.floor(Math.random() * 4)
+    l{{progress}}.classList.add(color[color{{progress}}])
+    m{{progress}}.classList.add(color[color{{progress}}])
+    {{/each}}
+    };
 
 
+    
+
+</script>
 
 <style>
     .stretch-card>.card {

@@ -1,100 +1,224 @@
 <div class="container">
-    <form class="mt-4 mb-4 p-3 border shadow rounded">
-  <div class="row mb-3">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="title">
+  <form class="mt-4 mb-4 p-3 border shadow rounded" id="work" action="/admin" method="post">
+    <div class="row mb-3">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="title" value="{{data.title}}" required>
+      </div>
     </div>
-  </div>
-  <div class="row mb-3">
-    <label for="inputPassword3" class="col-sm-2 col-form-label">Discription</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="discription">
+    <div class="row mb-3">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Discription</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="discription" value="{{data.description}}" required>
+      </div>
     </div>
-  </div>
-  <div class="row mb-3">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Estimate</label>
-    <div class="col-sm-10">
-      <input type="date" class="form-control" name="estimate">
+    <div class="row mb-3">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Estimate</label>
+      <div class="col-sm-10">
+        <input type="date" class="form-control" name="estimate"  value="{{data.estimate}}" required>
+      </div>
     </div>
-  </div>
-  <div class="row mb-3">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Advance</label>
-    <div class="col-sm-10">
-      <input type="number" class="form-control" name="advance">
-    </div>
-  </div>
-  <fieldset class="row mb-3">
-    <legend class="col-form-label col-sm-2 pt-0">Progress</legend>
-    <div class="col-sm-10">
-      <div class="form-check">
-        <div class="">
-                <div class="col-lg-12">
+    <div class="row mb-3">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Work Completed</label>
+      <div class="col-sm-10">
+        {{#if data.pending}}
+        <input type="radio" class="form-check-input" value=true name="status" id="completed"> <label for=""> : Completed</label> <br>
+        <input type="radio" class="form-check-input" value=true name="status" checked id="pending"> <label for=""> : Pending </label> 
 
-                    <div id="row">
-                        <div class="input-group m-3">
-                            <input  type="text" placeholder="label" oninput="rangeInput.name = lab.value" id="lab" value="Labour">
-                            <input style="margin-left: 1rem;" id="rangeInput" type="range" min="0" max="100" name="val" oninput="amount.value=rangeInput.value" />
-                            <input style="margin-left: 1rem;" id="amount" type="number" value="50" min="0" max="100" oninput="rangeInput.value=amount.value" />
-                        </div>
-                    </div>
+        {{else}}
+        <input type="radio" class="form-check-input" name="status" checked id="completed"> <label for=""> : Completed</label> <br>
+        <input type="radio" class="form-check-input" name="status"  id="pending"> <label for=""> : Pending </label> 
+        {{/if}}
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Advance</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" name="advance" value="{{data.advance}}" required>
+      </div>
+    </div>
+        <div class="row mb-3">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Remaining</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" name="remaining" value="{{data.remaining}}" required>
+      </div>
+    </div>
+    <fieldset class="row mb-3">
+      <legend class="col-form-label col-sm-2 pt-0">Progress</legend>
+      <div class="col-sm-10">
+        <div class="form-check">
+          <div class="">
+            <div class="col-lg-12">
 
-                    <div id="newinput"></div>
-                    <button id="rowAdder" type="button" class="btn btn-dark">
-                        <span class="bi bi-plus-square-dotted">
-                        </span> ADD
+              <div id="row">
+                {{#each data.progress}}
+                <div class="input-group m-3">
+                  <input type="text" placeholder="Label" oninput="rangeInput1.name = this.value" value="{{label}}"
+                    id="l{{@index}}" required>
+                  <input type="range" value="{{progress}}" min="0" max="100" id="rangeInput1"
+                    oninput="amount{{@index}}.value = this.value" style="margin-left: 1rem;" required />
+                  <input type="number" value="{{progress}}" min="0" max="100" id="amount{{@index}}"
+                    oninput="rangeInput1.value = this.value" style="margin-left: 1rem;" />
+                  <div class="input-group-prepend">
+                    <button class="btn btn-danger delete-row" type="button">
+                      <i class="bi bi-trash"></i> Delete
                     </button>
+                  </div>
+                </div>
+                {{/each}}
+              </div>
+
+              <div id="newinput"></div>
+              <button id="rowAdder" type="button" class="btn btn-dark">
+                <span class="bi bi-plus-square-dotted">
+                </span> ADD
+              </button>
             </div>
             <div>
 
-</div>
+            </div>
+
+
+          </div>
+
+        </div>
+    </fieldset>
+
+    <button type="submit" {{#if data.pending}} {{else}} disabled {{/if}} class="btn btn-primary">Sign in</button>
+  </form>
+  <script>
+
+
+    const form = document.getElementById("work");
+    const rowAdder = document.getElementById("rowAdder");
+    let progressInputs = [];
+    var i = 0;
+    rowAdder.addEventListener("click", function () {
+      const newRow = document.createElement("div");
+      newRow.classList.add("row");
+      i++;
+      newRow.innerHTML = `
+      <div class="input-group m-3">
+        <input type="text" placeholder="Label" oninput="rangeInput1.name = this.value" required>
+        <input type="range" min="0" max="100" id="rangeInput1" oninput="amount${i}.value = this.value" style="margin-left: 1rem;" required />
+        <input type="number" value="50" min="0" max="100" id="amount${i}" oninput="rangeInput1.value = this.value" style="margin-left: 1rem;" />
+        <div class="input-group-prepend">
+          <button class="btn btn-danger delete-row" type="button">
+            <i class="bi bi-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+    `;
+
+
+      newRow.querySelector(".delete-row").addEventListener("click", function () {
+        newRow.remove();
+        progressInputs = progressInputs.filter(
+          (input) => input.rangeInput1 !== this.previousElementSibling
+        );
+      });
+
+      document.getElementById("newinput").appendChild(newRow);
+
+      const rangeInput1 = newRow.querySelector("input[type='range']");
+      progressInputs.push({ rangeInput1 });
+    });
 
       
-</div>
-        
-    </div>
-  </fieldset>
- 
-  <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
+    
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const title = formData.get("title");
+      const description = formData.get("discription");
+      const advance = formData.get("advance");
+      const estimate = formData.get("estimate");
+      const remaining = formData.get("remaining");
+
+var pending = null;
+    if(document.getElementById('completed').checked) {
+  //Male radio button is checked
+   pending = false;
+   }else if(document.getElementById('pending').checked) {
+  //Female radio button is checked
+   pending = true;
+   } 
+
+      const progressData = progressInputs.map((input) => ({
+        label: input.rangeInput1.previousElementSibling.value,
+        progress: input.rangeInput1.value,
+      }));
+
+    
+      
+var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+const progressChanges =[]
+      {{#each data.progress}}
+      let label{{@index}} = document.getElementById('l{{@index}}').value;
+      let progress{{@index}} = document.getElementById('amount{{@index}}').value
+      progressData.push({ label: label{{@index}}, progress: progress{{@index}} })
+      progressChanges.push({ label : '{{label}}' === label{{@index}} ? null : ''+new Date().toLocaleDateString("en-US", options)+' label{{@index}} name changed to :'+label{{@index}}, progress : '{{progress}}' === progress{{@index}} ? null : ''+new Date().toLocaleDateString("en-US", options)+' label{{@index}} progress changed to '+progress{{@index}},  } )
+      {{/each }}
+var today  = new Date();
+  var changes = {
+        title: '{{data.title}}' === title ? null : ''+new Date().toLocaleDateString("en-US", options)+' Title changed to '+title,
+        description: '{{data.description}}' === description ? null : ''+new Date().toLocaleDateString("en-US", options)+' Description changed to '+description,
+        advance: '{{data.advance}}' === advance ? null : ''+new Date().toLocaleDateString("en-US", options)+' Advance changed to '+advance,
+        progress: progressChanges
+
+      }
 
 
-<style>
 
-input[type="text"],input[type="number"],input[type="date"],
-select.form-control {
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #000000;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  border-radius: 0;
-}
+      const workData = {
+            title,
+            description,
+            advance,
+            estimate,
+            pending,
+            remaining,
+            progress: JSON.stringify(progressData),
+            updates: JSON.stringify(changes),
 
-input[type="text"]:focus,input[type="number"]:focus,input[type="date"]:focus,
-select.form-control:focus {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-</style>
+          };
 
+          console.log(workData)
+          $.ajax({
+            url: `/admin/edit-work/{{data.id}}`,
+            dataType: 'json',
+            data: workData,
+            method: 'post',
+            success: (response) => {
+             // if (response) location.href = '/admin'
+            }
+          })
 
-<script type="text/javascript">
-    var i =0
-        $("#rowAdder").click(function () {
-            i++;
-            newRowAdd =
-                '<div id="row"> <div class="input-group m-3">' +
-                '<input type="text" placeholder="label" oninput="rangeInput'+i+'.name = lab'+i+'.value" id="lab'+i+'">'+
-                '<input id="rangeInput'+i+'" type="range" min="0" max="100" oninput="amount'+i+'.value=rangeInput'+i+'.value" style="margin-left: 1rem; margin-top: 1rem" />'+
-                '<input id="amount'+i+'" type="number" value="50" min="0" max="100" oninput="rangeInput'+i+'.value=amount'+i+'.value" style="margin-left: 1rem; margin-top: 1rem; margin-right: 1rem; " />'+
-                '<div class="input-group-prepend">' +
-                '<button style="margin-top: 1rem" class="btn btn-danger" id="DeleteRow" type="button">' +
-                '<i class="bi bi-trash"></i> Delete</button> </div> </div> </div>';
- 
-            $('#newinput').append(newRowAdd);
-        });
-        $("body").on("click", "#DeleteRow", function () {
-            $(this).parents("#row").remove();
         })
-</script>
+
+  </script>
+
+  </script>
+
+  <style>
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select.form-control {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #000000;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    select.form-control:focus {
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+  </style>

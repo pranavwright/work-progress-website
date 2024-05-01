@@ -17,28 +17,19 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark </td>
-      <td>95748922 </td>
-      <td>10</td>
-      <td>2</td>
-      <td><a href="/edit" class="btn btn-primary">Edit</a></td>
-    <tr>
-      <th scope="row">1</th>
-      <td>sark </td>
-      <td>95748922 </td>
-      <td>10</td>
-      <td>2</td>
-      <td><a href="/edit" class="btn btn-primary">Edit</a></td>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark </td>
-      <td>95748922 </td>
-      <td>10</td>
-      <td>2</td>
-      <td><a href="/edit" class="btn btn-primary">Edit</a></td>
-    </tr>
+    {{#each users}}
+ <tr>
+      <th scope="row">{{@index}}</th>
+      <td>{{name}} </td>
+      <td>{{number}} </td>
+      <td>{{success}}</td>
+      <td>{{ pending}}</td>
+      <td><a href="/admin/edit/{{number}}" class="btn btn-primary">Edit</a>
+      </td>
+ </tr>
+    {{/each}}
+   
+
 
   </tbody>
 </table>

@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({secret:'psSecret',resave: false, saveUninitialized: true, cookie:{maxAge: 5 * 60 * 1000}, secure: true }))
+app.use(session({secret:'psSecret',resave: false, saveUninitialized: true, cookie:{maxAge: 5 * 24 * 60 * 60 * 1000}, secure: true }))
 
 db.connect((err)=>{
   if(err) console.log('err is: '+ err);

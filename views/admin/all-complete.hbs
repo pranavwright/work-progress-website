@@ -10,14 +10,13 @@
       <th scope="col">Works</th>
       <th scope="col">Start</th>
       <th scope="col">Estimate</th>
-      <th>Progress</th>
       <th>Advanced</th>
       <th>Remaining</th>
       <th scope="col">Edit</th>
     </tr>
   </thead>
   <tbody>
-         {{#each pendings}}
+         {{#each completed}}
          {{#each works}}
     <tr>
  
@@ -25,7 +24,6 @@
       <td>{{title}}</td>
       <td>{{initialized}} </td>
       <td>{{estimate}} </td>
-      <td>81%</td>
       <td>{{advance}}</td>
       <td>{{remaining}}</td>
       <td><a href="/admin/edit-work/{{id}}" class="btn btn-primary">Edit</a></td>

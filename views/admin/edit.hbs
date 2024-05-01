@@ -1,0 +1,30 @@
+<div class="container " >
+  <a href="/admin/add-user/new-work/{{user.number}}" class="btn btn-danger" style="margin: 1.5rem;">New Work</a>
+    <div class="row justify-content-center" id="load" style="margin-bottom: 1rem;">
+    <div class="card " style="width: 18rem; margin-right: 1rem; margin-top: 1rem;">
+  <div class="card-header">User Details</div>
+  <div class="card-body">
+    <h5 class="card-title">Name: {{user.name}}</h5>
+    <p class="card-text">Contact: {{user.number}}<hr> Address: </p>
+    <a href="/edit-user/{{user._id}}" class="btn btn-primary" data-mdb-ripple-init>Edit</a>
+  </div>
+  <div class="card-footer text-muted">Created {{user.created}}</div>
+</div>
+
+{{#each user.works}}
+<div class="card " style="width: 18rem; margin-right: 1rem; margin-top: 1rem;">
+  <div class="card-header"># Work: <span  style="font-size: larger;">{{@index}}</span></div>
+  <div class="card-body">
+    <h5 class="card-title">Title: {{title}}</h5>
+    <p class="card-text">Discription: {{description}} <br>Advance: {{advance}} <br> Remaining: {{remaining}} <br>Status: {{#if pending}} Pending{{else}}Completed {{/if}} <br>Estimate: {{estimate}} </p>
+    <a href="/admin/edit-work/{{id}}" class="btn btn-primary text-center" data-mdb-ripple-init>Edit</a>
+  </div>
+  <div class="card-footer text-muted">Date: {{date}}</div>
+</div>
+{{/each}}
+    
+
+</div>
+</div>
+
+<
