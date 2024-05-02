@@ -83,7 +83,7 @@ module.exports = {
                 }).toArray()
 
 
-            resolve(progress[0].works[0].progress)
+            resolve(progress[0].works[0])
         })
     },
     editUser: (id) => {

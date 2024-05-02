@@ -159,13 +159,13 @@ const progressChanges =[]
       let label{{@index}} = document.getElementById('l{{@index}}').value;
       let progress{{@index}} = document.getElementById('amount{{@index}}').value
       progressData.push({ label: label{{@index}}, progress: progress{{@index}} })
-      progressChanges.push({ label : '{{label}}' === label{{@index}} ? null : ''+new Date().toLocaleDateString("en-US", options)+' label{{@index}} name changed to :'+label{{@index}}, progress : '{{progress}}' === progress{{@index}} ? null : ''+new Date().toLocaleDateString("en-US", options)+' label{{@index}} progress changed to '+progress{{@index}},  } )
+      progressChanges.push({ label : '{{label}}' === label{{@index}} ? false : ''+new Date().toLocaleDateString("en-US", options)+' label name: changed to :'+label{{@index}}, progress : '{{progress}}' === progress{{@index}} ? false : ''+new Date().toLocaleDateString("en-US", options)+' label: progress changed to '+progress{{@index}},  } )
       {{/each }}
 var today  = new Date();
   var changes = {
-        title: '{{data.title}}' === title ? null : ''+new Date().toLocaleDateString("en-US", options)+' Title changed to '+title,
-        description: '{{data.description}}' === description ? null : ''+new Date().toLocaleDateString("en-US", options)+' Description changed to '+description,
-        advance: '{{data.advance}}' === advance ? null : ''+new Date().toLocaleDateString("en-US", options)+' Advance changed to '+advance,
+        title: '{{data.title}}' === title ? false : ''+new Date().toLocaleDateString("en-US", options)+' Title changed to '+title,
+        description: '{{data.description}}' === description ? false : ''+new Date().toLocaleDateString("en-US", options)+' Description changed to '+description,
+        advance: '{{data.advance}}' === advance ? false : ''+new Date().toLocaleDateString("en-US", options)+' Advance changed to '+advance,
         progress: progressChanges
 
       }

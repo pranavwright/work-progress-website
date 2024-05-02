@@ -1,201 +1,288 @@
 <!-- multiple progrssbar -->
 <div class="container">
     <div class="card shadow mt-4 rounded">
-        <div class="card-body p-5">
-            <h4>Multiple progress bars</h4>
-            <p class="font-italic text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-            <!-- Multiple progress bar-->
-            <div style="height: 4px" class="progress rounded-pill">
-                {{#each progress}}
-                <div role="progressbar" aria-valuenow="{{progress}}" id="l{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: calc({{progress}}%/{{progress.length}})"
-                    class="progress-bar "></div>
-                
-                    {{/each}}
+        <div class="row justify-content-around align-items-center">
+            <div style="width:100%;max-width:400px;margin:1rem">
+                <canvas id="myChart"></canvas>
             </div>
-        </div>
-    </div>
-</div>
+        
+            <div style="width:100%;max-width:400px;margin:1rem">
+                <canvas id="radar"></canvas>
+            </div>
+            <div class="card-body p-5">
+                <h4>Multiple progress bars</h4>
+                <p class="font-italic text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 
-<!-- progesses -->
-<div class="page-content page-container container" id="page-content" >
-    <div class="padding">
-        <div class="row container d-flex justify-content-center ">
+                <!-- Multiple progress bar-->
+                <div style="height: 4px" class="progress rounded-pill">
+                    {{#each progress}}
+                    <div role="progressbar" aria-valuenow="{{progress}}" id="l{{label}}" aria-valuemin="0"
+                        aria-valuemax="100" style="width: calc({{progress}}%/{{progress.length}})"
+                        class="progress-bar "></div>
 
-            <div class="col-xl-12 ">
-                <div class="card proj-progress-card shadow rounded">
-                    <div class="card-block">
-                        <div class="row" style="justify-content: space-around;">
-                            {{#each progress}}
-                           
-                            <div class="col-xl-3 col-md-6">
-                                <h6>{{label}}</h6>
-                                <h5 class="m-b-30 f-w-700">+{{progress}}<span class="text-c-green m-l-10">%</span></h5>
-                                <div class="progress">
-                                    <div class="progress-bar " id="m{{progress}}" style="width:{{progress}}%"></div>
-                                </div>
-                            </div>
-                             {{/each}}
-
-                        </div>
-                    </div>
+                    {{/each}}
                 </div>
             </div>
-
         </div>
     </div>
-</div>
-<script>
 
-    var color = ['bg-c-green','bg-c-yellow','bg-c-blue','bg-c-red']
-    {{#each progress}}
-    var l{{progress}} = document.getElementById('l{{progress}}')
-    var m{{progress}} = document.getElementById('m{{progress}}')
-    {{/each}}
-    window.addEventListener('load', (event) => {
-    progressColor()
-    })
-    function progressColor() {
-    {{#each progress}}
-    var color{{progress}} = Math.floor(Math.random() * 4)
-    l{{progress}}.classList.add(color[color{{progress}}])
-    m{{progress}}.classList.add(color[color{{progress}}])
-    {{/each}}
-    };
+    <!-- progesses -->
+  
+                <div class="col-xl-12 mt-3 mb-5">
+                    <div class="card proj-progress-card shadow rounded">
+                        <div class="card-block">
+                            <div class="row" style="justify-content: space-around;">
+                                {{#each progress}}
+
+                                <div class="col-xl-3 col-md-6">
+                                    <h6>{{label}}</h6>
+                                    <h5 class="m-b-30 f-w-700">+{{progress}}<span class="text-c-green m-l-10">%</span>
+                                    </h5>
+                                    <div class="progress">
+                                        <div class="progress-bar " id="m{{label}}" style="width:{{progress}}%"></div>
+                                    </div>
+                                </div>
+                                {{/each}}
+
+                               
+                                <div class="col-xl-3 col-md-6" >
+                                    <h6>Progress updates</h6>
+                                    <div class="" style="overflow: scroll;height:10rem" >
+                                     {{#each updates}}
+                                     
+                                        {{#if title}}<p>{{title}}</p>{{/if}}
+                                        {{#if description}}<p>{{description}}</p>{{/if}}
+                                        {{#if advance}}<p><{{advance}}</p>{{/if}}
+                                        {{#each progress}}
+                                        {{#if label}}<p>{{label}}</p>{{/if}}
+                                        {{#if progress}}<p>{{progress}}</p>{{/if}}
+                                        {{/each}}
+                                        
+                                    
+                                    
+                                     {{/each }}
+                                      </div>
+                                </div>
+                               
+
+                            </div>
+                        </div>
+                    </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        var color = ['bg-c-green', 'bg-c-yellow', 'bg-c-blue', 'bg-c-red']
+        var colorChart = ['rgba(47, 163, 65, 0.8)', 'rgba(208, 223, 65, 0.8)', 'rgba(20, 24, 130, 0.8)', 'rgba(211, 46, 20, 0.8)']
 
 
-    
+        {{#each progress }}
+        var color{{@index}}
+        color{{ @index }} = Math.floor(Math.random() * 4)
 
-</script>
+        var l{{ label }} = document.getElementById('l{{label}}')
+        var m{{ label }} = document.getElementById('m{{label}}')
+        l{{ label }}.classList.add(color[color{{@index}}])
+    m{{label }}.classList.add(color[color{{@index}}])
+        {{/each}}
 
-<style>
-    .stretch-card>.card {
-        width: 100%;
-        min-width: 100%
-    }
+                let calc = 0
+                {{#each progress }}
+                calc = calc + {{ progress }}
+            {{/each }}
+                    calc = calc / 2
+                    calc = 100 - calc
 
 
 
-    .flex {
-        -webkit-box-flex: 1;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto
-    }
 
-    @media (max-width:991.98px) {
-        .padding {
-            padding: 1.5rem
+                    const data = {
+                        labels: [{{#each progress }} '{{label}}', {{/each }} 'rest' ],
+                        datasets: [{
+                            label: 'Work Progress Chart',
+                            data: [{{#each progress }}{{ progress }}, {{/each }} calc ],
+                            backgroundColor: [{{#each progress }} colorChart[color{{ @index }}], {{/each }} 'rgb(255, 205, 86)' ],
+                            hoverOffset: 4
+                        }]
+                    };
+                    
+                    const radarData = {
+                        labels: [{{#each progress }} '{{label}}', {{/each }} 'rest' ],
+                        datasets: [{
+                            label: 'Work Progress radar',
+                            data: [{{#each progress }}{{ progress }}, {{/each }} calc ],
+                            backgroundColor: [{{#each progress }} colorChart[color{{ @index }}], {{/each }} 'rgb(255, 205, 86)' ],
+                            hoverOffset: 4,
+                            fill: true,
+                            borderColor: 'rgb(255, 99, 132)',
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                             pointBorderColor: '#fff',
+                             pointHoverBackgroundColor: '#fff',
+                             pointHoverBorderColor: 'rgb(255, 99, 132)'
+                        }]
+                    };
+
+                        const config = {
+                            type: 'doughnut',
+                            data: data,
+                        };
+
+                        const radarConfig = {
+                            type: 'radar',
+                            data: radarData,
+                            options: {
+                                elements: {
+                                    line: {
+                                        borderWidth: 3
+                                        }
+                                        }
+                                        },
+                        };
+
+                        const ctx = document.getElementById('myChart');
+                        const ctxRadar = document.getElementById('radar');
+
+                        new Chart(ctx, config)
+                        new Chart(ctxRadar, radarConfig)
+
+
+
+
+
+
+
+
+    </script>
+
+    <style>
+        .stretch-card>.card {
+            width: 100%;
+            min-width: 100%
         }
-    }
 
-    @media (max-width:767.98px) {
-        .padding {
-            padding: 1rem
+
+
+        .flex {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto
         }
-    }
 
-    .padding {
-        padding: 3rem
-    }
+        @media (max-width:991.98px) {
+            .padding {
+                padding: 1.5rem
+            }
+        }
 
-    .card {
-        box-shadow: none;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        -ms-box-shadow: none
-    }
+        @media (max-width:767.98px) {
+            .padding {
+                padding: 1rem
+            }
+        }
 
-    .card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 1px solid #3da5f;
-        border-radius: 0
-    }
+        .padding {
+            padding: 3rem
+        }
 
-    .card .card-block {
-        padding: 1.25rem;
-    }
+        .card {
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            -ms-box-shadow: none
+        }
 
-    h6 {
-        font-size: 16px !important;
-    }
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #3da5f;
+            border-radius: 0
+        }
 
-    .text-c-green {
-        color: #2ed8b6;
-    }
+        .card .card-block {
+            padding: 1.25rem;
+        }
 
-    .m-l-10 {
-        margin-left: 10px;
-    }
+        h6 {
+            font-size: 16px !important;
+        }
 
-    .proj-progress-card .progress {
-        height: 6px;
-        overflow: visible;
-        margin-bottom: 10px;
-    }
+        .text-c-green {
+            color: #2ed8b6;
+        }
 
-    .proj-progress-card .progress .progress-bar {
-        position: relative;
-    }
+        .m-l-10 {
+            margin-left: 10px;
+        }
 
-    .progress .progress-bar {
-        height: 100%;
-        color: inherit;
-    }
+        .proj-progress-card .progress {
+            height: 6px;
+            overflow: visible;
+            margin-bottom: 10px;
+        }
 
-    .bg-c-red {
-        background: #FF5370;
-    }
+        .proj-progress-card .progress .progress-bar {
+            position: relative;
+        }
 
-    .proj-progress-card .progress .progress-bar.bg-c-red:after {
-        border: 3px solid #FF5370;
-    }
+        .progress .progress-bar {
+            height: 100%;
+            color: inherit;
+        }
 
-    .proj-progress-card .progress .progress-bar:after {
-        content: "";
-        background: #fff;
-        position: absolute;
-        right: -6px;
-        top: -4px;
-        border-radius: 50%;
-        width: 15px;
-        height: 15px;
-    }
+        .bg-c-red {
+            background: #FF5370;
+        }
 
-    .bg-c-blue {
-        background: #4099ff;
-    }
+        .proj-progress-card .progress .progress-bar.bg-c-red:after {
+            border: 3px solid #FF5370;
+        }
 
-    .proj-progress-card .progress .progress-bar.bg-c-blue:after {
-        border: 3px solid #4099ff;
-    }
+        .proj-progress-card .progress .progress-bar:after {
+            content: "";
+            background: #fff;
+            position: absolute;
+            right: -6px;
+            top: -4px;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+        }
 
-    .proj-progress-card .progress .progress-bar.bg-c-green:after {
-        border: 3px solid #2ed8b6;
-    }
+        .bg-c-blue {
+            background: #4099ff;
+        }
 
-    .bg-c-green {
-        background: #2ed8b6;
-    }
+        .proj-progress-card .progress .progress-bar.bg-c-blue:after {
+            border: 3px solid #4099ff;
+        }
 
-    .bg-c-yellow {
-        background: #FFB64D;
-    }
+        .proj-progress-card .progress .progress-bar.bg-c-green:after {
+            border: 3px solid #2ed8b6;
+        }
 
-    .proj-progress-card .progress .progress-bar.bg-c-yellow:after {
-        border: 3px solid #FFB64D;
-    }
+        .bg-c-green {
+            background: #2ed8b6;
+        }
 
-    .m-b-30 {
-        margin-bottom: 30px;
-    }
+        .bg-c-yellow {
+            background: #FFB64D;
+        }
 
-    .text-c-red {
-        color: #FF5370;
-    }
-</style>
+        .proj-progress-card .progress .progress-bar.bg-c-yellow:after {
+            border: 3px solid #FFB64D;
+        }
+
+        .m-b-30 {
+            margin-bottom: 30px;
+        }
+
+        .text-c-red {
+            color: #FF5370;
+        }
+    </style>

@@ -31,10 +31,10 @@ router.get('/',verifyLogin, function(req, res, next) {
 
 });
 
-router.get('/progress/:id',verifyLogin, (req, res, next) => {
+router.get('/progress/:id', (req, res, next) => {
   viewProgress(req.params.id).then((response)=>{
-    console.log(response);
-      res.render('work-progress',{user:true, progress:response, account: req.session.user})
+    console.log(response.updates[0].progress);
+      res.render('work-progress',{user:true, progress:response.progress, updates: response.updates, account: req.session.user})
 
   })
 })
