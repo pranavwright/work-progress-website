@@ -6,7 +6,7 @@
   <div class="card-body">
     <h5 class="card-title">Name: {{user.name}}</h5>
     <p class="card-text">Contact: {{user.number}}<hr> Address: </p>
-    <a href="/edit-user/{{user._id}}" class="btn btn-primary" data-mdb-ripple-init>Edit</a>
+    <a href="/admin/edit-user/{{user.number}}" class="btn btn-primary" data-mdb-ripple-init>Edit</a>
   </div>
   <div class="card-footer text-muted">Created {{user.created}}</div>
 </div>
@@ -19,7 +19,7 @@
     <p class="card-text">Discription: {{description}} <br>Advance: {{advance}} <br> Remaining: {{remaining}} <br>Status: {{#if pending}} Pending{{else}}Completed {{/if}} <br>Estimate: {{estimate}} </p>
     <a href="/admin/edit-work/{{id}}" class="btn btn-primary text-center" data-mdb-ripple-init>Edit</a>
   </div>
-  <div class="card-footer text-muted">Date: {{date}}</div>
+  <div class="card-footer text-muted">Date: {{initialized}}</div>
 </div>
 {{/each}}
     

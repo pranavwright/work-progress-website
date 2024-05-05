@@ -1,3 +1,59 @@
+<!--
 <h1>{{message}}</h1>
 <h2>{{error.status}}</h2>
 <pre>{{error.stack}}</pre>
+-->
+
+    <section style="margin-top: 3rem;">
+        <div class="main container py-3">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3"></div>
+                
+                <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="main-img text-center">
+                        <div style="background-color: #cfbdaa08;">
+                            <img src="/images/main.png" alt="Main" style="mix-blend-mode: luminosity;" class="img-fluid pb-3">
+                        </div>
+                        
+
+                        <h2>Page Not Found</h2>
+                        <p class="main-description pt-2">We're sorry, the page you requested could not be found please go back to the homepage</p><p id="timmer" ></p>
+                        <button class="btn btn-primary">Go Home</button>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3"></div>
+            </div>
+        </div>
+    </section>
+    <style>
+        nav{
+            opacity: 0;
+        }
+    </style>
+    <script>
+        // Set the date we're counting down to
+var countDownDate = new Date().getSeconds()+ 10;
+
+// Update the count down every 1 second
+var countdownfunction = setInterval(function() {
+
+  // Get todays date and time
+  var now = new Date().getSeconds();
+
+    
+  // Find the distance between now an the count down date
+  var timmer = countDownDate - now;
+
+
+    // Output the result in an element with id="demo"
+  document.getElementById("timmer").innerHTML = "We will get you home in " + timmer +'s';
+
+    // If the count down is over, write some text 
+  if (timmer < 0) {
+    clearInterval(countdownfunction);
+    location.href = '/'
+  }
+}, 1000);
+
+    </script>

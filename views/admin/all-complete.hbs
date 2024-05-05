@@ -1,37 +1,24 @@
 <div class="container ">
 
-      <a href="/admin/add-user" class="btn btn-success mt-3 mb-4">Add User</a>
+  <a href="/admin/add-user" class="btn btn-success mt-3 mb-4">Add User</a>
+
+  {{#each completed}}
+  {{#each works}}
+  <div class="card " style="width: 18rem; margin-right: 1rem; margin-top: 1rem;">
+    <div class="card-header"># Work: <span style="font-size: larger;">{{@index}}</span></div>
+    <div class="card-body">
+      <h5 class="card-title">Title: {{title}}</h5>
+      <p class="card-text">Advance: {{advance}} <br> Remaining: {{remaining}} <br>Status: {{#if pending}}
+        Pending{{else}}Completed {{/if}} <br>Estimate: {{estimate}} <br> Progress: {{#each progress}}{{progress}}%, {{/each}}
+      </p>
+      <a href="/admin/edit-work/{{id}}" class="btn btn-primary text-center" data-mdb-ripple-init>Edit</a>
+      <div class="card-footer text-muted">Date: {{initialized}}</div>
 
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Works</th>
-      <th scope="col">Start</th>
-      <th scope="col">Estimate</th>
-      <th>Advanced</th>
-      <th>Remaining</th>
-      <th scope="col">Edit</th>
-    </tr>
-  </thead>
-  <tbody>
-         {{#each completed}}
-         {{#each works}}
-    <tr>
- 
-      <th scope="row">1</th>
-      <td>{{title}}</td>
-      <td>{{initialized}} </td>
-      <td>{{estimate}} </td>
-      <td>{{advance}}</td>
-      <td>{{remaining}}</td>
-      <td><a href="/admin/edit-work/{{id}}" class="btn btn-primary">Edit</a></td>
-    </tr>
-         {{/each}}
-         {{/each}}
+    </div>
+  </div>
 
+  {{/each}}
+  {{/each}}
 
-  </tbody>
-</table>
 </div>

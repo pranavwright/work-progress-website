@@ -70,3 +70,10 @@ window.onscroll = function() {
   }
   prevScrollpos = currentScrollPos;
 }
+
+
+const toastCont = document.getElementById('toast')
+const toast = new bootstrap.Toast(toastCont);
+const toastHeader = document.getElementById('toast-header');
+const bgHeader = document.getElementById('bg-header');
+const toastBody = document.getElementById('toast-body');

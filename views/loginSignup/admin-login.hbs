@@ -1,0 +1,143 @@
+<!-- Main Content -->
+<div class="container-fluid pt-4">
+    <div class="toast position-absolute border  bg-opacity-50" id="toast" style="z-index: 10;right:10px;margin-top: 4rem;">
+          <div class="toast-header " id="bg-header">
+            <strong class="me-auto" id="toast-header" >Toast Header</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+          </div>
+          <div class="toast-body">
+            <p id="toast-body"> Some text inside the toast body</p>
+          </div>
+        </div>
+    <div class="row  main-content bg-success text-center">
+        
+        <div class="col-md-4 text-center company__info">
+            <span class="company__logo" style="background:rgb(241 241 241 / 0%);"><img src="/images/logo.png" alt="logo"
+                    style="max-width: 10vw;mix-blend-mode: color-dodge;"></span>
+            <h4 class="company_title">Wood Works And Interiors</h4>
+        </div>
+        <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+            <div class="container-fluid pt-5  pb-4">
+                <div class="row">
+                    <h2>Admin Log In</h2>
+                </div>
+                <div class="row">
+                    <form method="post" id="admin-form" class="form-group">
+                        <div class="row">
+                            <input type="text" name="username" id="username" class="form__input" placeholder="Username">
+                        </div>
+                        <div class="d-flex">
+                            <!-- <span class="fa fa-lock"></span> -->
+                            <input type="password" name="password" id="password" class="form__input"
+                                placeholder="Password">
+                        </div>
+
+                        <div class="">
+                            <button type="submit" value="Submit" class="btn">Login</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .main-content {
+        width: 50%;
+        border-radius: 20px;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, .4);
+        margin: 5em auto;
+        display: flex;
+    }
+
+    .company__info {
+        background-color: #008080;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: #fff;
+    }
+
+    .fa-android {
+        font-size: 3em;
+    }
+
+    @media screen and (max-width: 640px) {
+        .main-content {
+            width: 90%;
+        }
+
+        .company__info {
+            display: none;
+        }
+
+        .login_form {
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+        }
+    }
+
+    @media screen and (min-width: 642px) and (max-width:800px) {
+        .main-content {
+            width: 70%;
+        }
+    }
+
+    .row>h2 {
+        color: #008080;
+    }
+
+    .login_form {
+        background-color: #fff;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-top: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+    }
+
+    form {
+        padding: 0 2em;
+    }
+
+    .form__input {
+        width: 100%;
+        border: 0px solid transparent;
+        border-radius: 0;
+        border-bottom: 1px solid #aaa;
+        padding: 1em .5em .5em;
+        padding-left: 2em;
+        outline: none;
+        margin: 1.5em auto;
+        transition: all .5s ease;
+    }
+
+    .form__input:focus {
+        border-bottom-color: #008080;
+        box-shadow: 0 0 5px rgba(0, 80, 80, .4);
+        border-radius: 4px;
+    }
+
+    .btn {
+        transition: all .5s ease;
+        width: 70%;
+        border-radius: 30px;
+        color: #008080;
+        font-weight: 600;
+        background-color: #fff;
+        border: 1px solid #008080;
+        margin-top: 1.5em;
+        margin-bottom: 1em;
+    }
+
+    .btn:hover,
+    .btn:focus {
+        background-color: #008080;
+        color: #fff;
+    }
+</style>
+<script src="/javascripts/owner.js"></script>

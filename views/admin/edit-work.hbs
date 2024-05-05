@@ -13,6 +13,12 @@
       </div>
     </div>
     <div class="row mb-3">
+      <label for="inputPassword3" class="col-sm-2 col-form-label" style="color: red;">Unexpected</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="unexpected" value="{{data.unexpected}}" required>
+      </div>
+    </div>
+    <div class="row mb-3">
       <label for="inputEmail3" class="col-sm-2 col-form-label">Estimate</label>
       <div class="col-sm-10">
         <input type="date" class="form-control" name="estimate"  value="{{data.estimate}}" required>
@@ -84,7 +90,7 @@
         </div>
     </fieldset>
 
-    <button type="submit" {{#if data.pending}} {{else}} disabled {{/if}} class="btn btn-primary">Sign in</button>
+    <button type="submit" {{#if data.pending}} {{else}} disabled {{/if}} class="btn btn-primary">Update</button>
   </form>
   <script>
 
@@ -135,6 +141,7 @@
       const advance = formData.get("advance");
       const estimate = formData.get("estimate");
       const remaining = formData.get("remaining");
+      const unexpected = formData.get("unexpected");
 
 var pending = null;
     if(document.getElementById('completed').checked) {
@@ -166,6 +173,7 @@ var today  = new Date();
         title: '{{data.title}}' === title ? false : ''+new Date().toLocaleDateString("en-US", options)+' Title changed to '+title,
         description: '{{data.description}}' === description ? false : ''+new Date().toLocaleDateString("en-US", options)+' Description changed to '+description,
         advance: '{{data.advance}}' === advance ? false : ''+new Date().toLocaleDateString("en-US", options)+' Advance changed to '+advance,
+        unexpected: '{{data.unexpected}}' === unexpected ? false : ''+new Date().toLocaleDateString("en-US", options)+' Unexpected changed to '+unexpected,
         progress: progressChanges
 
       }
@@ -179,19 +187,19 @@ var today  = new Date();
             estimate,
             pending,
             remaining,
+            unexpected,
             progress: JSON.stringify(progressData),
             updates: JSON.stringify(changes),
 
           };
 
-          console.log(workData)
           $.ajax({
             url: `/admin/edit-work/{{data.id}}`,
             dataType: 'json',
             data: workData,
             method: 'post',
             success: (response) => {
-             // if (response) location.href = '/admin'
+              if (response) location.href = '/admin'
             }
           })
 

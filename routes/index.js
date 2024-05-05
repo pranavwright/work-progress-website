@@ -13,13 +13,16 @@ admin.initializeApp({
 });
 
 let verifyLogin=(req,res,next) =>{
+  if(req.session.admin) {
+
+    res.redirect('/admin')
+  }
   if(req.session.user) {
-    next()
+
     res.redirect('/users')
   }
   else {
-req.session.user =null;
-res.redirect("/login")
+next()
   }
 }
 
@@ -29,14 +32,15 @@ router.get('/', (req, res, next) => {
 
 });
 
-router.get("/login", (req, res)=>{
+router.get("/login",verifyLogin, (req, res)=>{
   if(req.session.user) res.redirect('/users')
   res.render('loginSignup/login')
 })
 
 router.post("/user-exist", (req, res)=>{
   accountExist(req.body.userNumber).then((response)=>{
-    res.json(response)
+    if(response.admin) res.json({admin:`/admin/login/${response.adminData._id}`})
+    else res.json(response)
   })
 })
 
@@ -47,17 +51,17 @@ router.post("/login", (req, res)=>{
   .getUser(userId)
   .then((userRecord) => {
     // See the UserRecord reference doc for the contents of userRecord.
-    console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+   // console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
     
     let user = {number:req.body.userNumber}
     req.session.user = user
     req.session.user.loginIn = true
-    console.log(req.session.user);
     res.json({success:true})
 
   })
   .catch((error) => {
-    console.log('Error fetching user data:', error);
+   // console.log('Error fetching user data:', error);
+   res.redirect('/login')
   });
 })
 

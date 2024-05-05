@@ -37,7 +37,6 @@ rowAdder.addEventListener("click", function () {
 
 form.addEventListener("submit", function (event) {
     event.preventDefault();
-    console.log(i)
     const formData = new FormData(form);
     const title = formData.get("title");
     const description = formData.get("discription");

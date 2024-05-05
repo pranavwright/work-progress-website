@@ -1,4 +1,3 @@
-const { resolve } = require('promise')
 const db = require('../env/connection')
 var { ObjectId } = require('mongodb')
 require('dotenv').config()
@@ -10,7 +9,14 @@ module.exports = {
                 if(response){
                     resolve({exist:true})
 
-                }else resolve({exist:false})
+                }else{
+                    db.get().collection(process.env.ADMIN_COLLECTION).findOne({number: userNumber}).then((response)=>{
+                        
+                        if(response) resolve({admin:true, adminData:response})
+                        else resolve({exist:false})
+                    })
+                } 
+                
             })
         })
     },
@@ -86,10 +92,18 @@ module.exports = {
             resolve(progress[0].works[0])
         })
     },
-    editUser: (id) => {
-        return new Promise(async(resolve, reject)=>{
-            let details = await db.get().collection(process.env.ACCOUNT_COLLECTION).findOne({_id:new ObjectId(id)})
-            resolve(details)
+    editUser: (id, updatedUser) => {
+        return new Promise((resolve, reject)=>{
+            db.get().collection(process.env.ACCOUNT_COLLECTION).updateOne({_id:new ObjectId(id)},
+        {
+            $set:{
+                name: updatedUser.name,
+                number: updatedUser.number
+            }
+        }).then(()=>{
+            resolve()
+        })
+            
         })
     },
     viewWork: (id)=> {
@@ -119,6 +133,7 @@ module.exports = {
                     'works.$.progress': updateProgress,
                     'works.$.estimate': updateData.estimate,
                     'works.$.remaining': updateData.remaining,
+                    'works.$.unexpected': updateData.unexpected,
                 },
                 $push:{
                     'works.$.updates': updatesLog
@@ -144,6 +159,7 @@ module.exports = {
                     'works.$.advance': updateData.advance,
                     'works.$.pending': updateData.pending,
                     'works.$.progress': updateProgress,
+                    'works.$.unexpected': updateData.unexpected,
                 },
                 
             },
