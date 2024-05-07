@@ -1,4 +1,19 @@
 <div class="container">
+
+  {{#if data.requote}}
+  <div class="card shadow mt-4 p-3 rounded">
+    <h3>Re-Quote Raised</h3>
+    <ul>
+      {{#each data.requote}}
+      <li>Date: {{date}},<br> Title: {{title}},<br> Why: {{why}},<br>Suggessions: <br> {{#if checkDesign}}#
+        {{checkDesign}} ,<br> {{/if}}{{#if checkLoaction}}# {{checkLoaction}} ,<br>{{/if}} {{#if checkColor}}#
+        {{checkColor}} ,<br>{{/if}}{{#if checkArea}}# {{checkArea}} {{/if}}</li><br>
+      {{/each}}
+    </ul>
+  </div>
+  {{/if}}
+
+
   <form class="mt-4 mb-4 p-3 border shadow rounded" id="work" action="/admin" method="post">
     <div class="row mb-3">
       <label for="inputEmail3" class="col-sm-2 col-form-label">Title</label>
@@ -15,40 +30,58 @@
     <div class="row mb-3">
       <label for="inputPassword3" class="col-sm-2 col-form-label" style="color: red;">Unexpected</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" name="unexpected" value="{{data.unexpected}}" required>
+        <input type="text" class="form-control" name="unexpected" value="{{data.unexpected}}">
       </div>
     </div>
     <div class="row mb-3">
       <label for="inputEmail3" class="col-sm-2 col-form-label">Estimate</label>
       <div class="col-sm-10">
-        <input type="date" class="form-control" name="estimate"  value="{{data.estimate}}" required>
+        <input type="date" class="form-control" name="estimate" value="{{data.estimate}}" required>
       </div>
     </div>
     <div class="row mb-3">
       <label for="inputEmail3" class="col-sm-2 col-form-label">Work Completed</label>
       <div class="col-sm-10">
         {{#if data.pending}}
-        <input type="radio" class="form-check-input" value=true name="status" id="completed"> <label for=""> : Completed</label> <br>
-        <input type="radio" class="form-check-input" value=true name="status" checked id="pending"> <label for=""> : Pending </label> 
+        <input type="radio" class="form-check-input" value=true name="status" id="completed"> <label for=""> :
+          Completed</label> <br>
+        <input type="radio" class="form-check-input" value=true name="status" checked id="pending"> <label for=""> :
+          Pending </label>
 
         {{else}}
-        <input type="radio" class="form-check-input" name="status" checked id="completed"> <label for=""> : Completed</label> <br>
-        <input type="radio" class="form-check-input" name="status"  id="pending"> <label for=""> : Pending </label> 
+        <input type="radio" class="form-check-input" name="status" checked id="completed"> <label for=""> :
+          Completed</label> <br>
+        <input type="radio" class="form-check-input" name="status" id="pending"> <label for=""> : Pending </label>
         {{/if}}
       </div>
     </div>
     <div class="row mb-3">
-      <label for="inputEmail3" class="col-sm-2 col-form-label">Advance</label>
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Total</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control" name="advance" value="{{data.advance}}" required>
+        <input type="number" class="form-control" {{#if data.requote}} {{else}} readonly{{/if }} name="total" value="{{data.payment.amount}}" required>
       </div>
     </div>
-        <div class="row mb-3">
-      <label for="inputEmail3" class="col-sm-2 col-form-label">Remaining</label>
+    <div class="row mb-3">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">balance</label>
       <div class="col-sm-10">
-        <input type="number" class="form-control" name="remaining" value="{{data.remaining}}" required>
+        <input type="number" class="form-control" name="remaining" disabled value="{{data.payment.balance}}" required>
       </div>
     </div>
+    <div class="row mb-3">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Next payment</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" required value="0" name="nextPayment" oninput="calculateSettlement({{data.payment.amount}}, parseInt({{data.payment.paid}})+parseInt(this.value))" id="paid">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Total Paid</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" name="totalPaid" id="totalPaid" readonly value="{{data.payment.paid}}" required>
+        
+        <ul id="payment-list" class="mt-3"> </ul>
+      </div>
+    </div>
+
     <fieldset class="row mb-3">
       <legend class="col-form-label col-sm-2 pt-0">Progress</legend>
       <div class="col-sm-10">
@@ -65,11 +98,7 @@
                     oninput="amount{{@index}}.value = this.value" style="margin-left: 1rem;" required />
                   <input type="number" value="{{progress}}" min="0" max="100" id="amount{{@index}}"
                     oninput="rangeInput1.value = this.value" style="margin-left: 1rem;" />
-                  <div class="input-group-prepend">
-                    <button class="btn btn-danger delete-row" type="button">
-                      <i class="bi bi-trash"></i> Delete
-                    </button>
-                  </div>
+                  
                 </div>
                 {{/each}}
               </div>
@@ -92,18 +121,114 @@
 
     <button type="submit" {{#if data.pending}} {{else}} disabled {{/if}} class="btn btn-primary">Update</button>
   </form>
-  <script>
+
+  <div class="card shadow mt-4 mb-3 p-3 rounded">
+    <h6>Progress updates</h6>
+    <div class="" style="overflow: scroll;height:10rem">
+      {{#each data.updates}}
+
+      {{#if title}}<p>{{title}}</p>{{/if}}
+      {{#if description}}<p>{{description}}</p>{{/if}}
+      {{#if advance}}<p>
+        <{{advance}}< /p>{{/if}}
+          {{#each progress}}
+          {{#if label}}<p>{{label}}</p>{{/if}}
+          {{#if progress}}<p>{{progress}}</p>{{/if}}
+          {{/each}}
 
 
-    const form = document.getElementById("work");
-    const rowAdder = document.getElementById("rowAdder");
-    let progressInputs = [];
-    var i = 0;
-    rowAdder.addEventListener("click", function () {
-      const newRow = document.createElement("div");
-      newRow.classList.add("row");
-      i++;
-      newRow.innerHTML = `
+
+      {{/each }}
+    </div>
+  </div>
+
+</div>
+<script>
+
+
+  const form = document.getElementById("work");
+  const rowAdder = document.getElementById("rowAdder");
+  let li = document.createElement('li');
+  var paymentList = document.getElementById('payment-list');
+
+  let progressInputs = [];
+  var i = 0;
+
+
+  function calculateSettlement(initialAmount, payments) {
+    // Initial amounts (as percentages)
+    const fortyPercent = 0.4 * initialAmount;
+    const thirtyPercent = 0.3 * initialAmount;
+    const twentyFivePercent = 0.25 * initialAmount;
+    const fivePercent = 0.05 * initialAmount;
+
+    
+    document.getElementById('totalPaid').value = payments
+
+
+    const isForty =  payments - fortyPercent
+    
+    if (isForty < 0) {
+      
+      li.innerHTML = `<li class="text-warning">Advance 45% - ${fortyPercent}</li>` +
+        `<li class="text-warning">First 30% - ${thirtyPercent}</li>` +
+        `<li class="text-warning">Second part 25% - ${twentyFivePercent}</li>` +
+        `<li class="text-warning">Final 5% - ${fivePercent}</li>`;
+      paymentList.appendChild(li);
+
+
+    } else {
+
+      var isThirty = thirtyPercent + fortyPercent -payments
+      if (isThirty > 0 ) {
+        li.innerHTML = `<li class="text-success">Advance 45% - ${fortyPercent}</li>` +
+          `<li class="text-warning">First 30% - ${thirtyPercent}</li>` +
+          `<li class="text-warning">Second part 25% - ${twentyFivePercent}</li>` +
+          `<li class="text-warning">Final 5% - ${fivePercent}</li>`;
+        paymentList.appendChild(li);
+      } else {
+
+        var isTwentyFive =  twentyFivePercent + thirtyPercent + fortyPercent - payments
+        if (isTwentyFive > 0 ) {
+          li.innerHTML = `<li class="text-success">Advance 45% - ${fortyPercent}</li>` +
+            `<li class="text-success">First 30% - ${thirtyPercent}</li>` +
+            `<li class="text-warning">Second part 25% - ${twentyFivePercent}</li>` +
+            `<li class="text-warning">Final 5% - ${fivePercent}</li>`;
+          paymentList.appendChild(li);
+        } else {
+
+          var isFive = fivePercent + twentyFivePercent + thirtyPercent + fortyPercent - payments
+          if (isFive > 0 ) {
+            li.innerHTML = `<li class="text-success">Advance 45% - ${fortyPercent}</li>` +
+              `<li class="text-success">First 30% - ${thirtyPercent}</li>` +
+              `<li class="text-success">Second part 25% - ${twentyFivePercent}</li>` +
+              `<li class="text-warning">Final 5% - ${fivePercent}</li>`;
+            paymentList.appendChild(li);
+          } else {
+            li.innerHTML = `<li class="text-success">Advance 45% - ${fortyPercent}</li>` +
+              `<li class="text-success">First 30% - ${thirtyPercent}</li>` +
+              `<li class="text-success">Second part 25% - ${twentyFivePercent}</li>` +
+              `<li class="text-success">Final 5% - ${fivePercent}</li>`;
+            paymentList.appendChild(li);
+          }
+        }
+
+      }
+
+    }
+
+
+
+  }
+
+
+
+
+  rowAdder.addEventListener("click", function () {
+    const newRow = document.createElement("div");
+    newRow.classList.add("row");
+    i++;
+    newRow.innerHTML = `
       <div class="input-group m-3">
         <input type="text" placeholder="Label" oninput="rangeInput1.name = this.value" required>
         <input type="range" min="0" max="100" id="rangeInput1" oninput="amount${i}.value = this.value" style="margin-left: 1rem;" required />
@@ -117,63 +242,69 @@
     `;
 
 
-      newRow.querySelector(".delete-row").addEventListener("click", function () {
-        newRow.remove();
-        progressInputs = progressInputs.filter(
-          (input) => input.rangeInput1 !== this.previousElementSibling
-        );
-      });
-
-      document.getElementById("newinput").appendChild(newRow);
-
-      const rangeInput1 = newRow.querySelector("input[type='range']");
-      progressInputs.push({ rangeInput1 });
+    newRow.querySelector(".delete-row").addEventListener("click", function () {
+      newRow.remove();
+      progressInputs = progressInputs.filter(
+        (input) => input.rangeInput1 !== this.previousElementSibling
+      );
     });
 
-      
-    
+    document.getElementById("newinput").appendChild(newRow);
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      const formData = new FormData(form);
-      const title = formData.get("title");
-      const description = formData.get("discription");
-      const advance = formData.get("advance");
-      const estimate = formData.get("estimate");
-      const remaining = formData.get("remaining");
-      const unexpected = formData.get("unexpected");
+    const rangeInput1 = newRow.querySelector("input[type='range']");
+    progressInputs.push({ rangeInput1 });
+  });
 
-var pending = null;
-    if(document.getElementById('completed').checked) {
-  //Male radio button is checked
-   pending = false;
-   }else if(document.getElementById('pending').checked) {
-  //Female radio button is checked
-   pending = true;
-   } 
 
-      const progressData = progressInputs.map((input) => ({
-        label: input.rangeInput1.previousElementSibling.value,
-        progress: input.rangeInput1.value,
-      }));
 
-    
-      
-var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-const progressChanges =[]
-      {{#each data.progress}}
-      let label{{@index}} = document.getElementById('l{{@index}}').value;
-      let progress{{@index}} = document.getElementById('amount{{@index}}').value
-      progressData.push({ label: label{{@index}}, progress: progress{{@index}} })
-      progressChanges.push({ label : '{{label}}' === label{{@index}} ? false : ''+new Date().toLocaleDateString("en-US", options)+' label name: changed to :'+label{{@index}}, progress : '{{progress}}' === progress{{@index}} ? false : ''+new Date().toLocaleDateString("en-US", options)+' label: progress changed to '+progress{{@index}},  } )
-      {{/each }}
-var today  = new Date();
-  var changes = {
-        title: '{{data.title}}' === title ? false : ''+new Date().toLocaleDateString("en-US", options)+' Title changed to '+title,
-        description: '{{data.description}}' === description ? false : ''+new Date().toLocaleDateString("en-US", options)+' Description changed to '+description,
-        advance: '{{data.advance}}' === advance ? false : ''+new Date().toLocaleDateString("en-US", options)+' Advance changed to '+advance,
-        unexpected: '{{data.unexpected}}' === unexpected ? false : ''+new Date().toLocaleDateString("en-US", options)+' Unexpected changed to '+unexpected,
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const formData = new FormData(form);
+
+    const title = formData.get("title");
+    const description = formData.get("discription");
+    const estimate = formData.get("estimate");
+    const unexpected = formData.get("unexpected");
+    const totalAmount = formData.get("total");
+    const nextPayment = formData.get("nextPayment");
+    const totalPaid = formData.get("totalPaid");
+
+    var pending = null;
+    if (document.getElementById('completed').checked) {
+      //completed radio button is checked
+      pending = false;
+    } else if (document.getElementById('pending').checked) {
+      //pending radio button is checked
+      pending = true;
+    }
+
+    const progressData = progressInputs.map((input) => ({
+      label: input.rangeInput1.previousElementSibling.value,
+      progress: input.rangeInput1.value,
+    }));
+
+
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    const progressChanges = []
+    {{#each data.progress }}
+    let label{{@index}} = document.getElementById('l{{@index}}').value;
+  let progress{{@index}} = document.getElementById('amount{{@index}}').value
+  progressData.push({ label: label{{@index}}, progress: progress{{@index}} })
+  progressChanges.push({ label: '{{label}}' === label{{@index}} ?false : '' + new Date().toLocaleDateString("en-US", options) + ' {{label}} progress name: changed to :' + label{{@index}}, progress : '{{progress}}' === progress{{@index}} ?false : '' + new Date().toLocaleDateString("en-US", options) + ' {{label}}: progress changed to ' + progress{{@index}},  })
+  {{/each}}
+
+  
+      var changes = {
+        title: '{{data.title}}' === title ? false : '' + new Date().toLocaleDateString("en-US", options) + ' {{data.title}} Title changed to ' + title,
+        description: '{{data.description}}' === description ? false : '' + new Date().toLocaleDateString("en-US", options) + ' Description changed to ' + description,
+        unexpected: '{{data.unexpected}}' === unexpected ? false : '' + new Date().toLocaleDateString("en-US", options) + ' Unexpected changed to ' + unexpected,
+        estimate: '{{data.estimate}}' === estimate ? false : '' + new Date().toLocaleDateString("en-US", options) + ' {{data.estimate}} estimate changed to ' + estimate,
+        totalAmount: '{{data.payment.amount}}' === totalAmount ? false : '' + new Date().toLocaleDateString("en-US", options) + ' {{data.payment.amount}} Total Amount changed to ' + totalAmount,
+        nextPayment: 0 == nextPayment ? false : '' + new Date().toLocaleDateString("en-US", options) + ' Paid Amount of ' + nextPayment,
+        totalPaid: '{{data.payment.paid}}' === totalPaid ? false : '' + new Date().toLocaleDateString("en-US", options) + ' {{data.payment.paid}} Total Amount changed to ' + totalPaid,
+
         progress: progressChanges
 
       }
@@ -181,52 +312,61 @@ var today  = new Date();
 
 
       const workData = {
-            title,
-            description,
-            advance,
-            estimate,
-            pending,
-            remaining,
-            unexpected,
-            progress: JSON.stringify(progressData),
-            updates: JSON.stringify(changes),
+        title,
+        description,
+        estimate,
+        pending,
+        unexpected,
+        payment: JSON.stringify(
+          {
+            totalAmount,
+            nextPayment,
+            totalPaid,
+            balance: totalAmount - totalPaid
+            
+          }
+        ),
+        progress: JSON.stringify(progressData),
+        updates: JSON.stringify(changes),
 
-          };
+      };
 
-          $.ajax({
-            url: `/admin/edit-work/{{data.id}}`,
-            dataType: 'json',
-            data: workData,
-            method: 'post',
-            success: (response) => {
-              if (response) location.href = '/admin'
-            }
-          })
+      console.log(workData)
 
-        })
+      $.ajax({
+        url: `/admin/edit-work/{{data.id}}`,
+        dataType: 'json',
+        data: workData,
+        method: 'post',
+        success: (response) => {
+         if (response) location.href = '/admin'
+        }
+      })
 
-  </script>
+    })
 
-  </script>
+</script>
 
-  <style>
-    input[type="text"],
-    input[type="number"],
-    input[type="date"],
-    select.form-control {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid #000000;
-      -webkit-box-shadow: none;
-      box-shadow: none;
-      border-radius: 0;
-    }
+</script>
 
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    input[type="date"]:focus,
-    select.form-control:focus {
-      -webkit-box-shadow: none;
-      box-shadow: none;
-    }
-  </style>
+<style>
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select.form-control {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #000000;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  input[type="date"]:focus,
+  select.form-control:focus {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+</style>

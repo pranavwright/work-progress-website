@@ -12,7 +12,7 @@ let verifyLogin=(req,res,next) =>{
     next()
   }
   else {
-    res.redirect("/login")
+    res.redirect('/login')
   }
 }
 
@@ -48,7 +48,8 @@ router.get("/edit-work/:id",verifyLogin, (req, res)=>{
 router.post("/edit-work/:id",verifyLogin, (req, res)=>{
   var progress = JSON.parse(req.body.progress)
   var updates = JSON.parse(req.body.updates)
-  updateWork(req.params.id, req.body, progress, updates).then((response)=>{
+  var payment = JSON.parse(req.body.payment)
+  updateWork(req.params.id, req.body, progress, updates, payment).then((response)=>{
       res.json({sent: true})
   })
 })
@@ -69,8 +70,10 @@ router.post('/add-user/',verifyLogin,(req, res)=>{
   })
 })
 router.post('/add-user/new-work/',verifyLogin,(req, res)=>{
-  var json = JSON.parse(req.body.progress)
-    newWork(req.body, json).then((response)=>{
+  var progress = JSON.parse(req.body.progress)
+  var payment = JSON.parse(req.body.payment)
+
+    newWork(req.body, progress, payment).then((response)=>{
       res.json({success:true})
     })
     

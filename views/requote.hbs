@@ -1,0 +1,124 @@
+<div class="container">
+    <form class="mt-4 mb-4 p-3 border shadow rounded" id="requote" method="post">
+        <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Re-Quote </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="title" placeholder="Issue" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Why</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="why" rows="5" ></textarea>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Priorities</label>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Change Design" name="CheckDesign" id="CheckDesign">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Change Design
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Change Color" name="CheckColor" id="CheckColor" >
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Change Color
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Change Area" name="CheckArea" id="CheckArea" >
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Enlarge/ Minimize area
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Change Loaction" name="CheckLoaction" id="CheckLoaction" >
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Change Location
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="Change Loaction" name="CheckAccessories" id="CheckAccessories" >
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Change Accessories
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+
+        <input type="hidden" name="id" value="{{id}}">
+
+
+        <button type="submit" id="submit" class="btn btn-primary">Request Re-Quote</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('requote')
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        document.getElementById('submit').disabled = true
+
+        const formData = new FormData(form);
+
+        const title = formData.get("title");
+        const why = formData.get("why");
+        const checkDesign = formData.get('CheckDesign')
+        const checkColor = formData.get('CheckColor')
+        const checkArea = formData.get('CheckArea')
+        const checkLoaction = formData.get('CheckLoaction')
+        const checkAccessories = formData.get('CheckAccessories')
+
+        const id = formData.get('id')
+
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const date = new Date().toLocaleDateString("en-US", options)
+
+
+        $.ajax({
+            url:`/users/requote/${id}`,
+            data:{
+                title: title,
+                why: why,
+                checkDesign,
+                checkLoaction,
+                checkColor,
+                checkArea,
+                checkAccessories,
+                date: date
+            },
+            method:'post',
+            success:(response)=>{
+                if(response.success) location.href = `/users/progress/${id}`
+                else location.reload()
+            }
+        })
+
+
+    })
+</script>
+
+<style>
+    input[type="text"],
+    input[type="number"],
+    select.form-control {
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #000000;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    select.form-control:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+</style>

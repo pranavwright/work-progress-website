@@ -16,7 +16,8 @@
   <div class="card-header"># Work: <span  style="font-size: larger;">{{@index}}</span></div>
   <div class="card-body">
     <h5 class="card-title">Title: {{title}}</h5>
-    <p class="card-text">Discription: {{description}} <br>Advance: {{advance}} <br> Remaining: {{remaining}} <br>Status: {{#if pending}} Pending{{else}}Completed {{/if}} <br>Estimate: {{estimate}} </p>
+    <p class="card-text">Discription: {{description}} <br>Total Amount: {{payment.amount}} <br>Total Paid: {{payment.paid}} <br> Remaining: {{payment.balance}} <br>Status: {{#if pending}} Pending{{else}}Completed {{/if}} <br>Estimate: {{estimate}} </p>
+    {{#if requote}} <h6 style="color: brown;">Re-Quoted!!</h6> {{/if}}
     <a href="/admin/edit-work/{{id}}" class="btn btn-primary text-center" data-mdb-ripple-init>Edit</a>
   </div>
   <div class="card-footer text-muted">Date: {{initialized}}</div>

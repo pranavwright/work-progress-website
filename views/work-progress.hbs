@@ -1,25 +1,26 @@
 <!-- multiple progrssbar -->
 <div class="container">
-      <a href="https://wa.me/+919747000151" class="btn-success btn mt-3">+ Chat</a>
+    <a href="https://wa.me/+919747000151" class="btn-success btn mt-3">+ Chat</a>
 
     <div class="card shadow mt-4 rounded">
         <div class="row justify-content-around align-items-center">
-            <h4 style="margin-top: 2rem;margin-left:5rem" class="text-secondary">{{data.title}} progress:</h4>
+            <div class="card-body p-5"><h4  class="text-secondary">{{data.title}} progress:</h4></div>
+            
             <div style="width:100%;max-width:400px;margin:1rem">
                 <canvas id="myChart"></canvas>
             </div>
-        
+
             <div style="width:100%;max-width:400px;margin:1rem">
                 <canvas id="radar"></canvas>
             </div>
             <div class="card-body p-5">
-                <h4>Multiple progress bars</h4>
-                <p class="font-italic text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                <h4></h4>
+                <p class="font-italic text-muted">Overall Progress:</p>
 
                 <!-- Multiple progress bar-->
                 <div style="height: 4px" class="progress rounded-pill">
                     {{#each progress}}
-                    <div role="progressbar" aria-valuenow="{{progress}}" id="l{{label}}" aria-valuemin="0"
+                    <div role="progressbar" aria-valuenow="{{progress}}" id="l{{@index}}" aria-valuemin="0"
                         aria-valuemax="101" style="width: calc({{progress}}%/{{../progress.length}})"
                         class="progress-bar "></div>
 
@@ -31,64 +32,268 @@
 
     <!-- updates -->
     <div class="card shadow mt-4 rounded" style="overflow: hidden;">
-        <div class="row justify-content-around align-items-center p-3" >
-            <p>Details:</p>
-            <h1>{{data.title}}</h1>
-            <h4>{{data.description}} </h4>
-            <hr>
-            <p>Work Initialized: {{data.initialized}} <br>Estimate: {{data.estimate}} <br>Advance: {{data.advance}} <br>Remaining: {{data.remaining}} </p>
-            {{#if data.unexpected}} <h5 >Unexpected: <span class="text-warning">{{data.unexpected}}</span></h5>  {{/if}}
-            {{#if data.pending}}<h4 class="text-warning">Pending</h4>{{else}} <h4 class="text-success">Completed</h4>{{/if}}
+        <div class="row justify-content-around align-items-center p-3">
+            <div class="col-xl-3 col-md-6">
+                <p>Details:</p>
+                <h1>{{data.title}}</h1>
+                <h4>{{data.description}} </h4>
+                <hr>
+                <p>Work Initialized: {{data.initialized}} <br>Estimate: {{data.estimate}} <br>Total Amound: {{data.payment.amount}}
+                    <br>Remaining: {{data.payment.balance}}
+                </p>
+                {{#if data.unexpected}} <h5>Unexpected: <span class="text-warning">{{data.unexpected}}</span></h5>
+                {{/if}}
+                <div class="row">
+                    <div class="col">{{#if data.pending}}<h4 class="text-warning">Pending</h4>{{else}} <h4 class="text-success">Completed</h4>{{/if}}</div>
+                    <div class="col"><a href="/users/requote/{{data.id}}"  class="btn {{#if data.pending}}{{else}}disabled{{/if}} btn-primary">Re-quote</a></div>
+                </div>
+                
+                <hr>
+            </div>
+
+            <div class="col-xl-3 col-md-6 pr-3">
+                
+
+                <h5>Payment Info</h5>
+                {{#with data.payment}}
+                <!-- Payment Progress bar 1 -->
+
+                <div class="progress-round mx-auto"  >
+                    <span class="progress-left">
+                        <span class="progress-bar-round border-primary"></span>
+                    </span>
+                    <span class="progress-right">
+                        <span class="progress-bar-round border-primary"></span>
+                    </span>
+                    <div
+                        class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+                        <div class="h2 font-weight-bold"><span id="payment-percentage"></span><sup class="small">%</sup></div>
+                    </div>
+                </div>
+                <!-- Demo info -->
+        <div class="row text-center mt-4">
+          <div class="col-6 border-right">
+            <div class="h4 font-weight-bold mb-0">{{balance}}</div><span class="small text-gray">To be Paid</span>
+          </div>
+          <div class="col-6">
+            <div class="h4 font-weight-bold mb-0">{{paid}}</div><span class="small text-gray">Total paid</span>
+          </div>
+        </div>
+
+                <ul id="payment-list" style="font-size: large;">
+                    </ul>
+
+                {{/with}}
+                
+                <!-- END -->
+                
+            </div>
         </div>
     </div>
 
+
     <!-- progesses -->
-  
-                <div class="col-xl-12 mt-3 mb-5">
-                    <div class="card proj-progress-card shadow rounded">
-                        <div class="card-block">
-                            <div class="row" style="justify-content: space-around;">
-                                {{#each progress}}
 
-                                <div class="col-xl-3 col-md-6">
-                                    <h6>{{label}}</h6>
-                                    <h5 class="m-b-30 f-w-700">+{{progress}}<span class="text-c-green m-l-10">%</span>
-                                    </h5>
-                                    <div class="progress">
-                                        <div class="progress-bar " id="m{{label}}" style="width:{{progress}}%"></div>
-                                    </div>
-                                </div>
-                                {{/each}}
 
-                               
-                                <div class="col-xl-3 col-md-6" >
-                                    <h6>Progress updates</h6>
-                                    <div class="" style="overflow: scroll;height:10rem" >
-                                     {{#each updates}}
-                                     
-                                        {{#if title}}<p>{{title}}</p>{{/if}}
-                                        {{#if description}}<p>{{description}}</p>{{/if}}
-                                        {{#if advance}}<p><{{advance}}</p>{{/if}}
-                                        {{#each progress}}
-                                        {{#if label}}<p>{{label}}</p>{{/if}}
-                                        {{#if progress}}<p>{{progress}}</p>{{/if}}
-                                        {{/each}}
-                                        
-                                    
-                                    
-                                     {{/each }}
-                                      </div>
-                                </div>
-                               
+    <div class="col-xl-12 mt-3 mb-5">
+        <div class="card proj-progress-card shadow rounded">
+            <div class="card-block">
+                <div class="row" style="justify-content: space-around;">
+                    {{#each progress}}
 
-                            </div>
+                    <div class="col-xl-3 col-md-6">
+                        <h6>{{label}}</h6>
+                        <h5 class="m-b-30 f-w-700">+{{progress}}<span class="text-c-green m-l-10">%</span>
+                        </h5>
+                        <div class="progress">
+                            <div class="progress-bar " id="m{{@index}}" style="width:{{progress}}%"></div>
+                        </div>
+                    </div>
+                    {{/each}}
+
+
+                    <div class="col-xl-3 col-md-6">
+                        <h6>Progress updates</h6>
+                        <div class="" style="overflow: scroll;height:10rem">
+                            {{#each updates}}
+
+                            {{#if title}}<p>{{title}}</p>{{/if}}
+                            {{#if description}}<p>{{description}}</p>{{/if}}
+                            {{#if advance}}<p>
+                                <{{advance}}< /p>{{/if}}
+                                    {{#each progress}}
+                                    {{#if label}}<p>{{label}}</p>{{/if}}
+                                    {{#if progress}}<p>{{progress}}</p>{{/if}}
+                                    {{/each}}
+
+
+
+                                    {{/each }}
                         </div>
                     </div>
 
+
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
+    {{#if data.requote}}
+    <div class="col-xl-12 mt-3 mb-5">
+        <div class="card proj-progress-card shadow rounded">
+            <div class="card-block">
+                <div class="row" style="justify-content: space-around;">
+               
+{{#each data.requote}}
+                <div class="col-xl-3 col-md-6 shadow border rounded">
+                        <p>Details:</p>
+                <h3>{{title}}</h3>
+                <h6>{{why}} </h6>
+                <hr>
+                <p>
+                    Suggested:
+                    <ul>
+                     {{#if checkDesign}}<li>To change Design </li>{{/if}}
+                    {{#if checkLoaction}}<li>To Change Location </li>{{/if}}
+                    {{#if checkColor}}<li>To Change Color </li>{{/if}}
+                    {{#if checkArea}}<li>To Change Size </li>{{/if}}
+                    {{#if checkAccessories}}<li>To Change Accessories </li><br> {{/if}}
+                    </ul>
+                    Date: {{date}}
+                </p>
+
+                <div class="row">
+                    <div class="col">{{#if ../data.pending}}<h4 class="text-warning">Pending</h4>{{else}} <h4 class="text-success">Completed</h4>{{/if}}</div>
+                    <div class="col"><a class="btn disabled btn-primary">Re-quoted</a></div>
+                </div>
+                
+                <hr>
+                    </div>
+
+
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+    </div>
+    {{/if }}
+
+</div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
     <script>
+
+        var paymentPercentage = {{data.payment.paid}}/{{data.payment.amount}}*100
+        document.getElementById("payment-percentage").innerText = paymentPercentage
+        var paymentList = document.getElementById('payment-list');
+        let li = document.createElement('li');
+
+function calculateSettlement(initialAmount, payments) {
+    // Initial amounts (as percentages)
+    const fortyPercent = 0.4 * initialAmount;
+    const thirtyPercent = 0.3 * initialAmount;
+    const twentyFivePercent = 0.25 * initialAmount;
+    const fivePercent = 0.05 * initialAmount;
+
+    
+
+    const isForty =  payments - fortyPercent
+    
+    if (isForty < 0) {
+      
+      li.innerHTML = `<li class="text-warning">Advance 45% - ${fortyPercent}</li>` +
+        `<li class="text-warning">First 30% - ${thirtyPercent}</li>` +
+        `<li class="text-warning">Second part 25% - ${twentyFivePercent}</li>` +
+        `<li class="text-warning">Final 5% - ${fivePercent}</li>`;
+      paymentList.appendChild(li);
+
+
+    } else {
+
+      var isThirty = thirtyPercent + fortyPercent -payments
+      if (isThirty > 0 ) {
+        li.innerHTML = `<li class="text-success">Advance 45% - ${fortyPercent}</li>` +
+          `<li class="text-warning">First 30% - ${thirtyPercent}</li>` +
+          `<li class="text-warning">Second part 25% - ${twentyFivePercent}</li>` +
+          `<li class="text-warning">Final 5% - ${fivePercent}</li>`;
+        paymentList.appendChild(li);
+      } else {
+
+        var isTwentyFive =  twentyFivePercent + thirtyPercent + fortyPercent - payments
+        if (isTwentyFive > 0 ) {
+          li.innerHTML = `<li class="text-success">Advance 45% - ${fortyPercent}</li>` +
+            `<li class="text-success">First 30% - ${thirtyPercent}</li>` +
+            `<li class="text-warning">Second part 25% - ${twentyFivePercent}</li>` +
+            `<li class="text-warning">Final 5% - ${fivePercent}</li>`;
+          paymentList.appendChild(li);
+        } else {
+
+          var isFive = fivePercent + twentyFivePercent + thirtyPercent + fortyPercent - payments
+          if (isFive > 0 ) {
+            li.innerHTML = `<li class="text-success">Advance 45% - ${fortyPercent}</li>` +
+              `<li class="text-success">First 30% - ${thirtyPercent}</li>` +
+              `<li class="text-success">Second part 25% - ${twentyFivePercent}</li>` +
+              `<li class="text-warning">Final 5% - ${fivePercent}</li>`;
+            paymentList.appendChild(li);
+          } else {
+            li.innerHTML = `<li class="text-success">Advance 45% - ${fortyPercent}</li>` +
+              `<li class="text-success">First 30% - ${thirtyPercent}</li>` +
+              `<li class="text-success">Second part 25% - ${twentyFivePercent}</li>` +
+              `<li class="text-success">Final 5% - ${fivePercent}</li>`;
+            paymentList.appendChild(li);
+          }
+        }
+
+      }
+
+    }
+
+
+
+  }
+
+
+
+        $(function () {
+
+
+            $(".progress-round").each(function () {
+
+                var value = paymentPercentage;
+                var left = $(this).find('.progress-left .progress-bar-round');
+                var right = $(this).find('.progress-right .progress-bar-round');
+
+                if (value > 0) {
+                    if (value <= 50) {
+                        right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+                    } else {
+                        right.css('transform', 'rotate(180deg)')
+                        left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+                    }
+                }
+
+            })
+
+            function percentageToDegrees(percentage) {
+
+                return percentage / 100 * 360
+
+            }
+
+            calculateSettlement({{data.payment.amount}},{{data.payment.paid}})
+
+            
+
+        });
+
+      
+
+
+
         var color = ['bg-c-green', 'bg-c-yellow', 'bg-c-blue', 'bg-c-red']
         var colorChart = ['rgba(47, 163, 65, 0.8)', 'rgba(208, 223, 65, 0.8)', 'rgba(20, 24, 130, 0.8)', 'rgba(211, 46, 20, 0.8)']
 
@@ -97,10 +302,10 @@
         var color{{@index}}
         color{{ @index }} = Math.floor(Math.random() * 4)
 
-        var l{{ label }} = document.getElementById('l{{label}}')
-        var m{{ label }} = document.getElementById('m{{label}}')
-        l{{ label }}.classList.add(color[color{{@index}}])
-    m{{label }}.classList.add(color[color{{@index}}])
+        var l{{ @index }} = document.getElementById('l{{@index}}')
+        var m{{ @index }} = document.getElementById('m{{@index}}')
+        l{{ @index }}.classList.add(color[color{{@index}}])
+        m{{ @index }}.classList.add(color[color{{@index}}])
         {{/each}}
 
                 let calc = 0
@@ -111,67 +316,157 @@
                     calc = 100 - calc
 
 
-
-
                     const data = {
                         labels: [{{#each progress }} '{{label}}', {{/each }} 'rest' ],
                         datasets: [{
                             label: 'Work Progress Chart',
-                            data: [{{#each progress }}{{ progress }}, {{/each }} calc ],
-                            backgroundColor: [{{#each progress }} colorChart[color{{ @index }}], {{/each }} 'rgb(255, 205, 86)' ],
-                            hoverOffset: 4
-                        }]
-                    };
-                    
-                    const radarData = {
-                        labels: [{{#each progress }} '{{label}}', {{/each }} 'rest' ],
-                        datasets: [{
-                            label: 'Work Progress radar',
-                            data: [{{#each progress }}{{ progress }}, {{/each }} calc ],
-                            backgroundColor: [{{#each progress }} colorChart[color{{ @index }}], {{/each }} 'rgb(255, 205, 86)' ],
-                            hoverOffset: 4,
-                            fill: true,
-                            borderColor: 'rgb(255, 99, 132)',
-                            pointBackgroundColor: 'rgb(255, 99, 132)',
-                             pointBorderColor: '#fff',
-                             pointHoverBackgroundColor: '#fff',
-                             pointHoverBorderColor: 'rgb(255, 99, 132)'
-                        }]
-                    };
-
-                        const config = {
-                            type: 'doughnut',
-                            data: data,
+                            data: [{{#each progress }}parseInt({{ progress }}), {{/each }} calc ],
+                            backgroundColor: [{{#each progress }} colorChart[color{{ @index }}], {{/each }} 'rgb(234 236 239)' ],
+                                hoverOffset: 4
+                            }]
                         };
 
-                        const radarConfig = {
-                            type: 'radar',
-                            data: radarData,
-                            options: {
-                                elements: {
-                                    line: {
-                                        borderWidth: 3
+                        const radarData = {
+                            labels: [{{#each progress }} '{{label}}', {{/each }} 'rest' ],
+                            datasets: [{
+                                label: 'Work Progress radar',
+                                data: [{{#each progress }}{{ progress }}, {{/each }} calc ],
+                                backgroundColor: [{{#each progress }} colorChart[color{{ @index }}], {{/each }} 'rgb(234 236 239)' ],
+                                    hoverOffset: 4,
+                                        fill: true,
+                                            borderColor: 'rgb(255, 99, 132)',
+                                                pointBackgroundColor: 'rgb(255, 99, 132)',
+                                                    pointBorderColor: '#fff',
+                                                        pointHoverBackgroundColor: '#fff',
+                                                            pointHoverBorderColor: 'rgb(255, 99, 132)'
+                                }]
+                            };
+
+                            const config = {
+                                type: 'doughnut',
+                                data: data,
+                            };
+
+                            const radarConfig = {
+                                type: 'radar',
+                                data: radarData,
+                                options: {
+                                    elements: {
+                                        line: {
+                                            borderWidth: 3
                                         }
-                                        }
-                                        },
-                        };
+                                    }
+                                },
+                            };
 
-                        const ctx = document.getElementById('myChart');
-                        const ctxRadar = document.getElementById('radar');
+                            const ctx = document.getElementById('myChart');
+                            const ctxRadar = document.getElementById('radar');
 
-                        new Chart(ctx, config)
-                        new Chart(ctxRadar, radarConfig)
-
-
-
-
-
+                            new Chart(ctx, config)
+                            new Chart(ctxRadar, radarConfig)
 
 
 
     </script>
 
     <style>
+        .progress-round {
+            width: 150px;
+            height: 150px;
+            background: none;
+            position: relative;
+        }
+
+        .progress-round::after {
+            content: "";
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid #eee;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .progress-round>span {
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            z-index: 1;
+        }
+
+        .progress-round .progress-left {
+            left: 0;
+        }
+
+        .progress-round .progress-bar-round {
+            width: 100%;
+            height: 100%;
+            background: none;
+            border-width: 6px;
+            border-style: solid;
+            position: absolute;
+            top: 0;
+        }
+
+        .progress-round .progress-left .progress-bar-round {
+            left: 100%;
+            border-top-right-radius: 80px;
+            border-bottom-right-radius: 80px;
+            border-left: 0;
+            -webkit-transform-origin: center left;
+            transform-origin: center left;
+        }
+
+        .progress-round .progress-right {
+            right: 0;
+        }
+
+        .progress-round .progress-right .progress-bar-round {
+            left: -100%;
+            border-top-left-radius: 80px;
+            border-bottom-left-radius: 80px;
+            border-right: 0;
+            -webkit-transform-origin: center right;
+            transform-origin: center right;
+        }
+
+        .progress-round .progress-value {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /*
+*
+* ==========================================
+* FOR DEMO PURPOSE
+* ==========================================
+*
+*/
+
+
+        .rounded-lg {
+            border-radius: 1rem;
+        }
+
+        .text-gray {
+            color: #aaa;
+        }
+
+        div.h4 {
+            line-height: 1rem;
+        }
+
+
+
+
+
+
+
+
         .stretch-card>.card {
             width: 100%;
             min-width: 100%

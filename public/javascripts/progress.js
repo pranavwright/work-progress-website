@@ -11,8 +11,8 @@ rowAdder.addEventListener("click", function () {
     newRow.innerHTML = `
       <div class="input-group m-3">
         <input type="text" placeholder="Label" oninput="rangeInput1.name = this.value" required>
-        <input type="range" min="0" max="100" id="rangeInput1" oninput="amount${i}.value = this.value" style="margin-left: 1rem;" required />
-        <input type="number" value="50" min="0" max="100" id="amount${i}" oninput="rangeInput1.value = this.value" style="margin-left: 1rem;" />
+        <input type="range" min="0" value="10" max="100" id="rangeInput1" oninput="amount${i}.value = this.value" style="margin-left: 1rem;" required />
+        <input type="number" value="10" min="0" max="100" id="amount${i}" oninput="rangeInput1.value = this.value" style="margin-left: 1rem;" />
         <div class="input-group-prepend">
           <button class="btn btn-danger delete-row" type="button">
             <i class="bi bi-trash"></i> Delete
@@ -35,16 +35,26 @@ rowAdder.addEventListener("click", function () {
     progressInputs.push({ rangeInput1 });
 });
 
+
 form.addEventListener("submit", function (event) {
     event.preventDefault();
     const formData = new FormData(form);
     const title = formData.get("title");
     const description = formData.get("discription");
-    const advance = formData.get("advance");
+    const amount = formData.get("amount");
+    const paid = formData.get("paid");
     const number = formData.get("number");
     const estimate = formData.get("estimate");
     const initialized = formData.get("initialized");
-    const remaining = formData.get("remaining");
+
+
+    var partPayment = null;
+    if(document.getElementById('single').checked) {partPayment = false;
+   }else if(document.getElementById('part').checked) { partPayment = true;
+   } 
+
+
+
 
     const progressData = progressInputs.map((input) => ({
         label: input.rangeInput1.previousElementSibling.value,
@@ -52,25 +62,33 @@ form.addEventListener("submit", function (event) {
     }));
     progressData.push({label:document.getElementById('lab').value, progress: document.getElementById('rangeInput').value,})
 
+  
+var payment  = {
+  amount: amount,
+  paid: paid,
+  paymentmethod: partPayment,
+  balance: amount-paid
+
+}
     
     const workData = {
         title,
         description,
-        advance,
+        payment: JSON.stringify(payment),
         number,
         estimate,
-        remaining,
         initialized,
         progress: JSON.stringify(progressData),
 
     };
+    console.log(workData);
     $.ajax({
         url: '/admin/add-user/new-work',
         dataType: 'json',
         data: workData,
         method: 'post',
         success: (response) => {
-            if(response) location.href = '/admin'
+          if(response) location.href = '/admin'
         }
     })
     

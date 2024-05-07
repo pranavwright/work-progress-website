@@ -35,8 +35,8 @@ module.exports = {
             })
         })
     },
-    newWork: (data, progress) => {
-        
+    newWork: (data, progress, payment) => {
+  
         return new Promise((resolve, reject)=>{
             db.get().collection(process.env.ACCOUNT_COLLECTION).updateOne({number: data.number},
                 {
@@ -45,10 +45,9 @@ module.exports = {
                             id: new ObjectId(),
                             title: data.title,
                             description: data.description,
-                            advance: data.advance,
                             progress: progress,
                             estimate: data.estimate,
-                            remaining: data.remaining,
+                            payment: payment,
                             initialized: data.initialized,
                             pending: true
                         }
@@ -89,7 +88,8 @@ module.exports = {
                 }).toArray()
 
 
-            resolve(progress[0].works[0])
+
+            resolve(progress[0].works[0] )
         })
     },
     editUser: (id, updatedUser) => {
@@ -120,7 +120,7 @@ module.exports = {
             resolve(details[0].works[0])
         })
     },
-    updateWork: (id, updateData, updateProgress, updatesLog)=> {
+    updateWork: (id, updateData, updateProgress, updatesLog, updatedPaymentInfo)=> {
         return new Promise((resolve,reject)=>{
             if(updateData.pending === 'true'){
                 updateData.pending = updateData.pending === 'true' ? true: false;
@@ -129,11 +129,12 @@ module.exports = {
                 $set:{
                     'works.$.title': updateData.title,
                     'works.$.description': updateData.description,
-                    'works.$.advance': updateData.advance,
                     'works.$.progress': updateProgress,
                     'works.$.estimate': updateData.estimate,
-                    'works.$.remaining': updateData.remaining,
                     'works.$.unexpected': updateData.unexpected,
+                    'works.$.payment.amount': updatedPaymentInfo.totalAmount,
+                    'works.$.payment.paid': updatedPaymentInfo.totalPaid,
+                    'works.$.payment.balance': updatedPaymentInfo.balance,
                 },
                 $push:{
                     'works.$.updates': updatesLog
@@ -192,6 +193,16 @@ module.exports = {
             resolve(complete)
         })
     },
+    addRequote: (id, data) => {
+        return new Promise((resolve, reject)=>{
+            db.get().collection(process.env.ACCOUNT_COLLECTION).updateOne({'works.id':new ObjectId(id)},
+        {
+            $push:{'works.$.requote': data}
+        }).then((response)=>{
+            resolve({success:true})
+        })
+        })
+    }
 }
 
 
