@@ -290,10 +290,10 @@
     const progressChanges = []
     {{#each data.progress }}
     let label{{@index}} = document.getElementById('l{{@index}}').value;
-  let progress{{@index}} = document.getElementById('amount{{@index}}').value
-  progressData.push({ label: label{{@index}}, progress: progress{{@index}} })
-  progressChanges.push({ label: '{{label}}' === label{{@index}} ?false : '' + new Date().toLocaleDateString("en-US", options) + ' {{label}} progress name: changed to :' + label{{@index}}, progress : '{{progress}}' === progress{{@index}} ?false : '' + new Date().toLocaleDateString("en-US", options) + ' {{label}}: progress changed to ' + progress{{@index}},  })
-  {{/each}}
+    let progress{{@index}} = document.getElementById('amount{{@index}}').value
+   progressData.push({ label: label{{@index}}, progress: progress{{@index}} })
+   progressChanges.push({ label: '{{label}}' === label{{@index}} ?false : '' + new Date().toLocaleDateString("en-US", options) + ' {{label}} progress name: changed to :' + label{{@index}}, progress : '{{progress}}' === progress{{@index}} ?false : '' + new Date().toLocaleDateString("en-US", options) + ' {{label}}: progress changed to ' + progress{{@index}},  })
+   {{/each}}
 
   
       var changes = {
@@ -331,19 +331,29 @@
 
       };
 
-      console.log(workData)
+      
 
-      $.ajax({
+      if(confirm('Are you sure to edit work') == true){
+        $.ajax({
         url: `/admin/edit-work/{{data.id}}`,
         dataType: 'json',
         data: workData,
         method: 'post',
         success: (response) => {
-         if (response) location.href = '/admin'
+         if(response){
+              if(confirm('work added Successfully go home') == true) location.href = `/admin`
+              else location.reload()
+          } 
         }
       })
+      
 
-    })
+    }
+
+  })
+        
+      
+      
 
 </script>
 

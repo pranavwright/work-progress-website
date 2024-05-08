@@ -94,7 +94,10 @@
             },
             method:'post',
             success:(response)=>{
-                if(response.success) location.href = `/users/progress/${id}`
+                if(response.success){
+                    if(confirm('Re-quote sent Successfully share this with our whatsapp for faster response') == true) location.href = `https://wa.me/+919747000151/?text=Re-Quote%0atitle: ${title}%0aWhy: ${why}`
+                    else location.href = `/users/progress/${id}`
+                } 
                 else location.reload()
             }
         })
